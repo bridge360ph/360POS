@@ -39,6 +39,7 @@ ALLOWED_HOSTS = []
 LOCAL_APPS = (
     'users',
     'api',
+    'gasolinestation',
 )
 
 DJANGO_APPS = (
