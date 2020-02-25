@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 # Application definition
 LOCAL_APPS = (
     'users',
+    'api',
 )
 
 DJANGO_APPS = (
@@ -47,10 +48,16 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 )
 
 THIRD_PARTY_APPS = (
     'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'rest_auth',
+    'rest_auth.registration',
     'django_filters',
     'crispy_forms',
 )
@@ -84,6 +91,18 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+
+    ],
+    'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
+}
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -156,4 +175,9 @@ LOGOUT_REDIRECT_URL = '/'
 # Custom User models
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# django.contrib.sites
+SITE_ID = 1
 
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = False
