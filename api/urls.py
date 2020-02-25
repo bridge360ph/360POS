@@ -2,11 +2,14 @@ from django.urls import include, path
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from . views import UserViewSet
+
+from . views import UserViewSet, GasStationViewSet, FuelViewSet
 
 
 router = DefaultRouter()
 router.register(r'user', UserViewSet, basename='users')
+router.register(r'gas-station', GasStationViewSet)
+router.register(r'fuel-pricing', FuelViewSet)
 
 
 urlpatterns = [

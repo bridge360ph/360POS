@@ -10,6 +10,9 @@ class FuelPricing(models.Model):
     price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
     currency = models.CharField(max_length=150, null=True, blank=True)
 
+    class Meta:
+        ordering = ['-name']
+
     def __str__(self):
         return '%s - %s %s'%(self.name, self.currency, self.price)
 
@@ -26,6 +29,9 @@ class GasStations(models.Model):
     price_management_flexibility = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+
+    class Meta:
+        ordering = ['-name']
 
     def __str__(self):
         return "%s"%(self.name)
