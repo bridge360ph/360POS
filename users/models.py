@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
         ('Manager', 'Manager'),
         ('Owner', 'Owner'),
     )
+    full_name = models.CharField(max_length=150, null=True, blank=True)
     nickname = models.CharField(max_length=100, null=True, blank=True)
     picture = models.ImageField(upload_to="user/user-photo/", max_length=100, null=True, blank=True,
               verbose_name="User profile photo")
@@ -18,7 +19,15 @@ class CustomUser(AbstractUser):
         verbose_name = "User list"
         verbose_name_plural = "User Lists"
         ordering = ['-first_name']
-    
+
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+    def combine_name(self):
+        get_full_name = self.first_name + ' ' + self.last_name
+        return get_full_name
+    
+    def save(self, *args, **kwargs):
+        self.full_name = self.combine_name()
+        super().save(*args, **kwargs)
 
