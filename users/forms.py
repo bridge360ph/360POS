@@ -15,4 +15,5 @@ class CustomUserForm(RegistrationForm):
             'birthdate': forms.DateInput(attrs={'class':'datepicker'})
         }
         fields = ('username', 'email', 'password1', 'password2',
-                'nickname', 'picture', 'position', 'birthdate')
+                'first_name', 'last_name', 'nickname', 'picture', 
+                'position', 'birthdate')
