@@ -4,16 +4,26 @@
 
 {% block content %}
 <div id="pos-profile">
-    <h1>Profile</h1>
-    <div v-if="!profiles.length">
-
-    </div>
-    <div v-for="profile in profiles" :key="profile">
-        [[ profile.username ]]
-    </div>
-    <div v-for="gas in gasStations" :key="gas">
-        [[ gas.name ]]
+    <h1 class="profile-header">Profile Tab</h1>
+    <hr>
+    <div class="col-md-12 col-sm-12">
+        <div class="card profile">
+            <h5 class="card-header">Account information</h5>
+            <div class="card-body" v-for="profile in profiles" :key="profile">
+                <div class="col-md-6 col-sm-12">
+                    <label>Full name:</label> [[ profile.full_name ]]
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>Nickname:</label> [[ profile.nickname ]]
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>Position:</label> [[ profile.position ]]
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <label>birthdate:</label> [[ profile.birthdate ]]
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
-
