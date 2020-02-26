@@ -5,6 +5,9 @@
 {% block content %}
 <div id="pos-profile">
     <h1>Profile</h1>
+    <div v-if="!profiles.length">
+
+    </div>
     <div v-for="profile in profiles" :key="profile">
         [[ profile.username ]]
     </div>
@@ -14,6 +17,3 @@
 </div>
 {% endblock %}
 
-{% block api %}
-<script src="{% static 'vue/src/users/profile.js' %}" type="module"></script>
-{% endblock %}
