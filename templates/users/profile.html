@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
-<h1>Profile</h1>
+<div id="pos-profile">
+    <h1>Profile</h1>
+    <div v-for="profile in profiles" :key="profile">
+        [[ profile.username ]]
+    </div>
+    <div v-for="gas in gasStations" :key="gas">
+        [[ gas.name ]]
+    </div>
+</div>
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vue/src/users/profile.js' %}" type="module"></script>
 {% endblock %}

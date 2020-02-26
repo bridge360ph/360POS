@@ -55,6 +55,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'allauth',
     'allauth.account',
     'rest_auth',
@@ -68,6 +69,7 @@ INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -165,6 +167,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 # Crispy forms - django_crispy_forms
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
@@ -182,3 +188,14 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = False
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+)
+
+CORS_ALLOW_HEADERS = (
+    'x-csrftoken'
+)
