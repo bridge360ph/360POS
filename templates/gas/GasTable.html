@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div id="pos-gas">
+    <div class="mt-3">
+        <h1>Manage Gasoline Stations</h1>
+    </div>
+    <div class="card mt-5">
+        <div class="card-header">List Gasoline Stations</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Site Location</th>
+                            <th scope="col">Site Manager</th>
+                            <th scope="col">Site Staffs</th>
+                            <th scope="col">Pricing for specific type of Fuel</th>
+                            <th scope="col">Price management flexibility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="text-center bg-warning" v-if="!gasStations.length">
+                                Currently there's no Gas Station added.
+                            </td>
+                        </tr>
+                        <tr v-for="gas in gasStations">
+                            <td>[[ gas.name ]]</td>
+                            <td>[[ gas.site_location ]]</td>
+                            <td>[[ gas.site_manager ]]</td>
+                            <td>[[ gas.site_staff.toString() ]]</td>
+                            <td>[[ gas.pricing_for_specific_type_of_fuel ]]</td>
+                            <td>[[ gas.price_management_flexibility ]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
