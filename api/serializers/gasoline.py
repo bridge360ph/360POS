@@ -14,6 +14,7 @@ class FuelPricingSerializer(serializers.ModelSerializer):
 class GasolineSerializer(serializers.ModelSerializer):
     site_manager = serializers.SlugRelatedField(slug_field="full_name", queryset=user.objects.filter(position="Manager"), allow_null=True, required=False)
     site_staff = serializers.SlugRelatedField(slug_field="full_name", queryset=user.objects.filter(position="Cashier"), allow_null=True, required=False, many=True)
+    pricing_for_specific_type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=FuelPricing.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = GasStations

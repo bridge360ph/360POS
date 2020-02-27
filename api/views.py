@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from api.serializers.users import UserSerializer
+from api.serializers.users import UserSerializer, ManagerSerializer, StaffSerializer
 from api.serializers.gasoline import GasolineSerializer, FuelPricingSerializer
 
 from users.models import CustomUser as user
@@ -19,6 +19,31 @@ class UserViewSet(viewsets.ModelViewSet):
         
         if users:
             qs = users.filter(username=current_user)
+            return qs
+
+
+class ManagerViewSet(viewsets.ModelViewSet):
+    serializer_class = ManagerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        users = user.objects.all()
+        
+        if users:
+            qs = users.filter(position="Manager")
+            return qs
+
+
+
+class StaffViewSet(viewsets.ModelViewSet):
+    serializer_class = StaffSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        users = user.objects.all()
+        
+        if users:
+            qs = users.filter(position="Cashier")
             return qs
 
 
