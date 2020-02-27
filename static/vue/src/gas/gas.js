@@ -13,7 +13,15 @@ new Vue({
       loading: false,
       viewing: false,
       saving: false,
-      currentGas: {}
+      currentGas: {},
+      newGas: {
+        'name': null,
+        'site_location': null,
+        'site_manager': null,
+        'site_staff': null,
+        'price_management_flexibility': null,
+        'pricing_for_specific_type_of_fuel': null
+      }
     };
   },
   mounted() {
@@ -38,16 +46,16 @@ new Vue({
       }
     },
     fetchGasStation(id) {
-      this.loading = true;
+      this.viewing = true;
       let endpoint = `/api/v1/gas-station/${id}/`;
       if (this.currentGas) {
         axios.get(endpoint)
           .then((response) => {
             this.currentGas = response.data;
-            this.loading = false;
+            this.viewing = false;
           })
           .catch((err) => {
-            this.loading = false;
+            this.viewing = false;
             console.log(err);
           })
       }
@@ -97,6 +105,20 @@ new Vue({
           .catch((err) => {
             this.saving = false;
             console.log(err);
+          })
+      }
+    },
+    addGas() {
+      this.saving = true;
+      // let endpoint = 
+      if (this.newGas) {
+        axios.post(`/api/v1/gas-station/`, this.newGas)
+          .then(() => {
+            this.saving = false;
+          })
+          .catch((err) => {
+            this.saving = false;
+            console.log(err.response);
           })
       }
     },

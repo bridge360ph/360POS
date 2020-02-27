@@ -10,3 +10,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 class GasView(LoginRequiredMixin, TemplateView):
     template_name = 'gas/GasTable.html'
+
+
+class AddGasView(LoginRequiredMixin, TemplateView):
+    template_name = 'gas/GasAdd.html'

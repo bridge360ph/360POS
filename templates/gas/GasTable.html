@@ -6,6 +6,10 @@
 <div id="pos-gas" v-cloak>
     <div class="mt-3">
         <h1>Manage Gasoline Stations</h1>
+        <hr>
+        <div class="container">
+            <a type="button" class="btn btn-outline-success" href="{% url 'gas-add' %}">Add Gasoline Station</a>
+        </div>
     </div>
     <div v-if="loading" class="text-center mt-5">
         <div class="spinner-grow text-primary" role="status">
@@ -42,7 +46,7 @@
                             <td>[[ gas.pricing_for_specific_type_of_fuel ]]</td>
                             <td>[[ gas.price_management_flexibility ]]</td>
                             <td><a href="#" data-toggle="modal" v-on:click="fetchGasStation(gas.id)"
-                                data-target="#gasStationModal" class="badge badge-info">Edit</a></td>
+                                    data-target="#gasStationModal" class="badge badge-info">Edit</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,7 +81,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <template v-if="saving">
-                            <button type="button" class="btn btn-primary" disabled><i class="fa fa-spinner fa-spin"></i> Save
+                            <button type="button" class="btn btn-primary" disabled><i class="fa fa-spinner fa-spin"></i>
+                                Save
                                 changes</button>
                         </template>
                         <template v-else>
