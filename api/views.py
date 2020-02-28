@@ -63,22 +63,26 @@ class GasStationViewSet(viewsets.ModelViewSet):
         employee_name = self.request.user.full_name
         gas = GasStations.objects.all()
 
-        if self.request.user.position == 'Manager' or self.request.user.position == 'Cashier':
+        if gas:
+            if self.request.user.position == 'Manager' or self.request.user.position == 'Cashier':
 
-            qs = gas.filter(Q(site_manager__full_name=employee_name) |
-                            Q(site_staff__full_name=employee_name))
-            return qs
-            
-        elif self.request.user.position == 'Owner':
+                qs = gas.filter(Q(site_manager__full_name=employee_name) |
+                                Q(site_staff__full_name=employee_name))
+                return qs
+                
+            elif self.request.user.position == 'Owner':
 
-            return gas
+                return gas
 
     def perform_create(self, serializer):
         employee_name = self.request.user.full_name
         manager = self.request.user.position == 'Manager'
         cashier = self.request.user.position == 'Cashier'
+        owner = self.request.user.position == 'Owner'
 
         if cashier:
             return serializer.save(created_by_staff=employee_name)
         elif manager:
             return serializer.save(updated_by_manager=employee_name)
+        elif owner:
+            return serializer.save()
