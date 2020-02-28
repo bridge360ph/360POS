@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -54,6 +56,29 @@ class FuelViewSet(viewsets.ModelViewSet):
 
 
 class GasStationViewSet(viewsets.ModelViewSet):
-    queryset = GasStations.objects.all()
     serializer_class = GasolineSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        employee_name = self.request.user.full_name
+        owner = self.request.user.position == 'Owner'
+        manager = self.request.user.position == 'Manager'
+        cashier = self.request.user.position == 'Cashier'
+        gas = GasStations.objects.all()
+
+        if manager or cashier:
+            qs = gas.filter(Q(site_manager__full_name=employee_name) |
+                            Q(site_staff__full_name=employee_name))
+            return qs
+        elif owner:
+            return gas
+
+    def perform_create(self, serializer):
+        employee_name = self.request.user.full_name
+        manager = self.request.user.position == 'Manager'
+        cashier = self.request.user.position == 'Cashier'
+
+        if cashier:
+            return serializer.save(created_by_staff=employee_name)
+        elif manager:
+            return serializer.save(updated_by_manager=employee_name)
