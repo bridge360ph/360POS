@@ -17,8 +17,10 @@ new Vue({
       newGas: {
         'name': null,
         'site_location': null,
-        'site_manager': null,
-        'site_staff': null,
+        'site_manager': "",
+        'site_staff': [],
+        'sales': null,
+        'volume_of_gasoline': null,
         'price_management_flexibility': null,
         'pricing_for_specific_type_of_fuel': null
       }
@@ -110,7 +112,6 @@ new Vue({
     },
     addGas() {
       this.saving = true;
-      // let endpoint = 
       if (this.newGas) {
         axios.post(`/api/v1/gas-station/`, this.newGas)
           .then(() => {

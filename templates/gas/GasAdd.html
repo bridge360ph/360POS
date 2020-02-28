@@ -8,6 +8,26 @@
         <h1>Add Gasoline Station Information</h1>
         <hr>
         <form @submit.prevent="addGas">
+            {% if request.user.position == 'Manager' or request.user.position == 'Cashier' %}
+            <div class="form-row">
+                <div class="form-group col-md-6 col-sm-12">
+                    <label>Name</label>
+                    <input type="text" v-model="newGas.name" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Site location</label>
+                    <input type="text" v-model="newGas.site_location" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Sales</label>
+                    <input type="text" v-model="newGas.sales" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Volume of Gasoline</label>
+                    <input type="text" v-model="newGas.volume_of_gasoline" class="form-control">
+                </div>
+            </div>
+            {% elif request.user.position == 'Owner' %}
             <div class="form-row">
                 <div class="form-group col-md-6 col-sm-12">
                     <label>Name</label>
@@ -31,13 +51,14 @@
                     <label>Site Staffs</label>
                     <select class="custom-select" multiple v-model="newGas.site_staff">
                         <option v-for="staff in staffs">[[ staff.full_name ]]</option>
-                      </select>
+                    </select>
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                     <label>Price management flexibility</label>
                     <input type="text" v-model="newGas.price_management_flexibility" class="form-control">
                 </div>
             </div>
+            {% endif %}
             <button type="submit" class="btn btn-success pull-right">Add</button>
         </form>
     </div>

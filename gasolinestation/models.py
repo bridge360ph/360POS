@@ -24,9 +24,13 @@ class GasStations(models.Model):
     site_manager = models.ForeignKey(settings.AUTH_USER_MODEL,
         related_name='site_managers', null=True, blank=True, on_delete=models.PROTECT)
     site_staff = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        related_name='site_staffs')
+        related_name='site_staffs', blank=True)
     pricing_for_specific_type_of_fuel = models.ForeignKey(FuelPricing, null=True, blank=True, on_delete=models.PROTECT)
     price_management_flexibility = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
+    sales = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
+    volume_of_gasoline = models.CharField(max_length=150, null=True, blank=True)
+    created_by_staff = models.CharField(max_length=150, null=True, blank=True)
+    updated_by_manager = models.CharField(max_length=150, null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
