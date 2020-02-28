@@ -2,6 +2,9 @@
 
 {% load crispy_forms_tags %}
 
+{% block navbar %}
+{% endblock %}
+
 {% block auth %}
 <div class="card text-center">
   <div class="card-header">
@@ -13,6 +16,7 @@
       {{ form|crispy }}
       <button type="submit" class="btn btn-sm btn-primary">Create Account</button>
     </form>
+    <p class="mt-2">or <a href="{% url 'login' %}">Login</a></p>
   </div>
 </div>
 {% endblock %}
