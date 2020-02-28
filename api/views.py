@@ -61,16 +61,16 @@ class GasStationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         employee_name = self.request.user.full_name
-        owner = self.request.user.position == 'Owner'
-        manager = self.request.user.position == 'Manager'
-        cashier = self.request.user.position == 'Cashier'
         gas = GasStations.objects.all()
 
-        if manager or cashier:
+        if self.request.user.position == 'Manager' or self.request.user.position == 'Cashier':
+
             qs = gas.filter(Q(site_manager__full_name=employee_name) |
                             Q(site_staff__full_name=employee_name))
             return qs
-        elif owner:
+            
+        elif self.request.user.position == 'Owner':
+
             return gas
 
     def perform_create(self, serializer):
