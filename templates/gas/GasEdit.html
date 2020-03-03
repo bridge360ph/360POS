@@ -51,12 +51,12 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="inputCity">Created by</label>
-        <input type="text" v-model="currentGas.created_by_staff" disabled class="form-control"
+        <input type="text" v-model="currentGas.created_by" disabled class="form-control"
         {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
     <div class="form-group col-md-6">
         <label for="inputCity">Updated by</label>
-        <input type="text" v-model="currentGas.updated_by_manager" disabled class="form-control">
+        <input type="text" v-model="currentGas.updated_by" disabled class="form-control">
     </div>
 </div>
 <!-- <div class="form-row">
