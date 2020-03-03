@@ -81,14 +81,17 @@ class GasStationViewSet(viewsets.ModelViewSet):
         owner = self.request.user.position == 'Owner'
 
         if cashier:
-            return serializer.save(created_by_staff=self.request.user.full_name)
+            return serializer.save(created_by=self.request.user.full_name)
         elif manager:
-            return serializer.save(site_manager=self.request.user, created_by_staff=self.request.user.full_name)
+            return serializer.save(site_manager=self.request.user, created_by=self.request.user.full_name)
         elif owner:
             return serializer.save()
 
     def perform_update(self, serializer):
         manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
 
         if manager:
-            return serializer.save(updated_by_manager=self.request.user.full_name)
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(updated_by=self.request.user.full_name)
