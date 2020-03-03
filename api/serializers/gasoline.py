@@ -1,7 +1,11 @@
 from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
 
 from users.models import CustomUser as user
-from gasolinestation.models import GasStations, FuelPricing
+from gasolinestation.models import (
+    GasStations, FuelPricing, PriceManagement,
+    TypeOfFuel, TransactionSales
+    )
 
 
 class FuelPricingSerializer(serializers.ModelSerializer):
@@ -18,4 +22,34 @@ class GasolineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GasStations
+        fields = "__all__"
+
+
+class PriceManagementSerializer(serializers.ModelSerializer):
+    type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
+    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
+
+    class Meta:
+        model = PriceManagement
+        fields = '__all__'
+
+
+class TransactionSalesSerializer(serializers.ModelSerializer):
+    type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
+    price = serializers.SlugRelatedField(slug_field="price", queryset=PriceManagement.objects.all(), allow_null=True, required=False)
+    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
+    fuel_price = SerializerMethodField()
+
+    class Meta:
+        model = TransactionSales
+        fields = '__all__'
+
+    def get_fuel_price(self, obj):
+        return str(obj.price.type_of_fuel) + ' - ' + str(obj.price.price)
+        
+
+class TypeOfFuelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TypeOfFuel
         fields = "__all__"

@@ -72,4 +72,4 @@ class TransactionSales(models.Model):
     gas_station_assigned = models.ForeignKey(GasStations, null=True, blank=True, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "Transaction sales for "+ ' ' +"%s" % (self.gas_station_assigned)
+        return "%s - %s" % (self.gas_station_assigned, self.sales)

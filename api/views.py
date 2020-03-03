@@ -5,10 +5,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.serializers.users import UserSerializer, ManagerSerializer, StaffSerializer
-from api.serializers.gasoline import GasolineSerializer, FuelPricingSerializer
+from api.serializers.gasoline import (
+    GasolineSerializer, FuelPricingSerializer, PriceManagementSerializer,
+    TransactionSalesSerializer, TypeOfFuelSerializer
+    )
 
 from users.models import CustomUser as user
-from gasolinestation.models import GasStations, FuelPricing
+from gasolinestation.models import (
+    GasStations, FuelPricing, PriceManagement, TransactionSales, TypeOfFuel
+    )
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -95,3 +100,70 @@ class GasStationViewSet(viewsets.ModelViewSet):
             return serializer.save(updated_by=self.request.user.full_name)
         elif owner:
             return serializer.save(updated_by=self.request.user.full_name)
+
+
+class PriceManagementViewSet(viewsets.ModelViewSet):
+    queryset = PriceManagement.objects.all()
+    serializer_class = PriceManagementSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if cashier:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(created_by=self.request.user.full_name)
+
+    def perform_update(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if cashier:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(updated_by=self.request.user.full_name)
+
+
+class TransactionSalesViewSet(viewsets.ModelViewSet):
+    queryset = TransactionSales.objects.all()
+    serializer_class = TransactionSalesSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class TypeOfFuelViewSet(viewsets.ModelViewSet):
+    queryset = TypeOfFuel.objects.all()
+    serializer_class = TypeOfFuelSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if cashier:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(created_by=self.request.user.full_name)
+
+    def perform_update(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if cashier:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(updated_by=self.request.user.full_name)
+        
