@@ -19,12 +19,14 @@
 </div>
 <div class="form-group">
     <label>Name</label>
-    <input type="text" v-model="currentGas.name" class="form-control">
+    <input type="text" v-model="currentGas.name" class="form-control"
+    {% if request.user.position == 'Cashier' %} disabled {% endif %}>
 </div>
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="inputCity">Site location</label>
-        <input type="text" v-model="currentGas.site_location" class="form-control">
+        <input type="text" v-model="currentGas.site_location"  class="form-control"
+        {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
 </div>
 <div class="form-row">
@@ -35,11 +37,13 @@
     </div>
     <div class="form-group col-md-12">
         <label for="inputCity">Volume of gasoline</label>
-        <input type="text" v-model="currentGas.volume_of_gasoline" class="form-control">
+        <input type="text" v-model="currentGas.volume_of_gasoline" class="form-control"
+        {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
     <div class="form-group col-md-12">
         <label for="inputCity">Price management flexibility</label>
-        <input type="text" v-model="currentGas.price_management_flexibility" class="form-control">
+        <input type="text" v-model="currentGas.price_management_flexibility" class="form-control"
+        {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
 </div>
 <hr>
