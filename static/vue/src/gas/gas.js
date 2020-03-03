@@ -13,6 +13,7 @@ new Vue({
       loading: false,
       viewing: false,
       saving: false,
+      adding: false,
       currentGas: {},
       newGas: {
         'name': null,
@@ -32,6 +33,11 @@ new Vue({
     this.fetchStaffs();
   },
   methods: {
+    reset: function () {
+      Object.keys(this.newGas).forEach(key => {
+        this.newGas[key] = ""
+      })
+    },
     fetchGasStations() {
       this.loading = true;
       let endpoint = `/api/v1/gas-station/`;
@@ -112,9 +118,11 @@ new Vue({
     },
     addGas() {
       this.saving = true;
+      this.adding = true;
       if (this.newGas) {
         axios.post(`/api/v1/gas-station/`, this.newGas)
           .then(() => {
+            this.reset();
             this.saving = false;
           })
           .catch((err) => {
@@ -123,5 +131,14 @@ new Vue({
           })
       }
     },
+  },
+  watch: {
+    adding(val) {
+      if (val) {
+        setTimeout(() => {
+          this.adding = false;
+        }, 2000);
+      }
+    }
   }
 })
