@@ -7,6 +7,9 @@
     <div class="container mt-5">
         <h1>Add Gasoline Station Information</h1>
         <hr>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="adding">
+            Success!
+        </div>
         <form @submit.prevent="addGas">
             {% if request.user.position == 'Manager' or request.user.position == 'Cashier' %}
             <div class="form-row">
@@ -59,7 +62,13 @@
                 </div>
             </div>
             {% endif %}
-            <button type="submit" class="btn btn-success pull-right">Add</button>
+            <template v-if="saving">
+                <button type="button" class="btn btn-success pull-right" disabled><i class="fa fa-spinner fa-spin"></i>
+                    Add</button>
+            </template>
+            <template v-else>
+                <button type="submit" class="btn btn-success pull-right">Add</button>
+            </template>
         </form>
     </div>
 </div>
