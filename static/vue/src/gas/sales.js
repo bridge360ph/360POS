@@ -64,8 +64,9 @@ new Vue({
           .then((response) => {
             this.saving = false;
             this.currentSales = response.data;
+            this.fetchSales();
 
-            $("#salesModal").modal("hide")
+            $("#editSalesModal").modal("hide")
           })
           .catch((err) => {
             this.saving = false;
