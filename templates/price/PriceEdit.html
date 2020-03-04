@@ -1,0 +1,35 @@
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label>Type of Fuel</label>
+        <select class="custom-select" v-model="currentPrice.type_of_fuel">
+            <option v-for="fuel in typeOfFuels">
+                [[ fuel.name ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Gasoline Station assigned</label>
+        <select class="custom-select" v-model="currentPrice.gas_station_assigned">
+            <option v-for="gas in gasStations">
+                [[ gas.name ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Price</label>
+        <input type="text" v-model="currentPrice.price" class="form-control">
+    </div>
+    <hr>
+    <h5>Important Info</h5>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputCity">Created by</label>
+            <input type="text" v-model="currentPrice.created_by" disabled class="form-control"
+                disabled>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputCity">Updated by</label>
+            <input type="text" v-model="currentPrice.updated_by" disabled class="form-control">
+        </div>
+    </div>
+</div>
