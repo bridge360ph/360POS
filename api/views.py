@@ -137,6 +137,30 @@ class TransactionSalesViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSalesSerializer
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if cashier:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(created_by=self.request.user.full_name)
+
+    def perform_update(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if cashier:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(updated_by=self.request.user.full_name)
+
 
 class TypeOfFuelViewSet(viewsets.ModelViewSet):
     queryset = TypeOfFuel.objects.all()

@@ -1,5 +1,7 @@
 import uuid
 
+from decimal import Decimal
+
 from django.db import models
 from django.conf import settings
 
@@ -66,10 +68,25 @@ class PriceManagement(ImportantInfo):
 
 
 class TransactionSales(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     type_of_fuel = models.ForeignKey(TypeOfFuel, null=True, blank=True, on_delete=models.PROTECT)
     sales = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
-    price = models.ForeignKey(PriceManagement, null=True, blank=True, on_delete=models.PROTECT)
+    price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
     gas_station_assigned = models.ForeignKey(GasStations, null=True, blank=True, on_delete=models.PROTECT)
+    dispensed_liter = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    created_by = models.CharField(max_length=150, null=True, blank=True)
+    updated_by = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
-        return "%s - %s" % (self.gas_station_assigned, self.sales)
+        return "%s - %s" % (self.gas_station_assigned, self.dispensed_liter)
+    
+    def calculate_dispensed_liter(self):
+        liter = Decimal(self.sales) / Decimal(self.price)
+        total_liter = Decimal(liter)
+        return total_liter
+    
+    def save(self, *args, **kwargs):
+        self.dispensed_liter = self.calculate_dispensed_liter()
+        super().save(*args, **kwargs)
