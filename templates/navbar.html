@@ -13,6 +13,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'sales' %}">Sales</a>
                 </li>
+                {% if request.user.position == 'Owner' or request.user.position == 'Manager' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'prices' %}">Prices</a>
+                </li>
+                {% endif %}
             </ul>
             <span class="nav-item dropdown navbar-right">
                 <a href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true"
