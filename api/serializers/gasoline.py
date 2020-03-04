@@ -36,7 +36,6 @@ class PriceManagementSerializer(serializers.ModelSerializer):
 
 class TransactionSalesSerializer(serializers.ModelSerializer):
     type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
-    price = serializers.SlugRelatedField(slug_field="price", queryset=PriceManagement.objects.all(), allow_null=True, required=False)
     gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
     fuel_price = SerializerMethodField()
 
@@ -45,7 +44,7 @@ class TransactionSalesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_fuel_price(self, obj):
-        return str(obj.price.type_of_fuel) + ' - ' + str(obj.price.price)
+        return str(obj.type_of_fuel) + ' - ' + str(obj.price)
         
 
 class TypeOfFuelSerializer(serializers.ModelSerializer):

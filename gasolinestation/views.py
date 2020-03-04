@@ -14,3 +14,7 @@ class GasView(LoginRequiredMixin, TemplateView):
 
 class AddGasView(LoginRequiredMixin, TemplateView):
     template_name = 'gas/GasAdd.html'
+
+
+class SalesView(LoginRequiredMixin, TemplateView):
+    template_name = 'gas/SalesTable.html'

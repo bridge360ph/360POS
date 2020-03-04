@@ -1,9 +1,10 @@
 from django.urls import path
 
-from .views import HomeView,GasView, AddGasView
+from .views import HomeView,GasView, AddGasView, SalesView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('gas-stations/', GasView.as_view(), name='gas'),
-    path('gas-stations/add', AddGasView.as_view(), name='gas-add')
+    path('gas-stations/add', AddGasView.as_view(), name='gas-add'),
+    path('sales/', SalesView.as_view(), name='sales')
 ]

@@ -1,0 +1,26 @@
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label>Type of Fuel</label>
+        <select class="custom-select" v-model="newSales.type_of_fuel">
+            <option v-for="fuel in typeOfFuel">
+                [[ fuel.name ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Gasoline Station assigned</label>
+        <select class="custom-select" v-model="newSales.gas_station_assigned">
+            <option v-for="gas in gasStations">
+                [[ gas.name ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Sales</label>
+        <input type="text" v-model="newSales.sales" class="form-control">
+    </div>
+    <div class="form-group col-md-12">
+        <label>Price</label>
+        <input type="text" v-model="newSales.price" class="form-control">
+    </div>
+</div>
