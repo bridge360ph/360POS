@@ -21,6 +21,9 @@ new Vue({
         'price': 0.00,
         'gas_station_assigned': null,
         'dispensed_liter': 0.00,
+      },
+      newFuel: {
+        'name': "",
       }
     };
   },
@@ -33,6 +36,25 @@ new Vue({
       Object.keys(this.newSales).forEach(key => {
         this.newSales[key] = ""
       })
+    },
+    resetFuel: function () {
+      Object.keys(this.newFuel).forEach(key => {
+        this.newFuel[key] = ""
+      })
+    },
+    isNumber($event) {
+      // console.log($event.keyCode); //keyCodes value
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+
+      // only allow number and one dot
+      if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46)) { // 46 is dot
+        $event.preventDefault();
+      }
+
+      // restrict to 2 decimal places
+      // if (this.newSales != null && this.newSales.indexOf(".") > -1 && (this.newSales.split('.')[1].length > 1)) {
+      //   $event.preventDefault();
+      // }
     },
     updateSales() {
       this.saving = true;
@@ -54,11 +76,14 @@ new Vue({
     addSales() {
       this.saving = true;
       this.adding = true;
-      if (this.newGas) {
+      if (this.newSales) {
         axios.post(`/api/v1/sales/`, this.newSales)
           .then(() => {
-            this.reset();
             this.saving = false;
+            this.reset();
+            this.fetchSales();
+
+            $("#salesModal").modal("hide")
           })
           .catch((err) => {
             this.saving = false;
@@ -78,6 +103,24 @@ new Vue({
           .catch((err) => {
             this.loading = false;
             console.log(err);
+          })
+      }
+    },
+    addTypeOfFuel() {
+      this.saving = true;
+      this.adding = true;
+      if (this.newFuel) {
+        axios.post(`/api/v1/type-of-fuel/`, this.newFuel)
+          .then(() => {
+            this.resetFuel();
+            this.saving = false;
+
+            this.fetchTypeOfFuel();
+            $("#fuelModal").modal("hide");
+          })
+          .catch((err) => {
+            this.saving = false;
+            console.log(err.response);
           })
       }
     },

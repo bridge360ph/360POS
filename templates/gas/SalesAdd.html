@@ -6,6 +6,10 @@
                 [[ fuel.name ]]
             </option>
         </select>
+        {% if request.user.position == 'Manager' or request.user.position == 'Owner' %}
+        <a href="#" data-toggle="modal" data-target="#fuelModal"
+            class="badge badge-info">Add type of fuel</a>
+        {% endif %}
     </div>
     <div class="form-group col-md-12">
         <label>Gasoline Station assigned</label>
@@ -17,10 +21,12 @@
     </div>
     <div class="form-group col-md-12">
         <label>Sales</label>
-        <input type="text" v-model="newSales.sales" class="form-control">
+        <input type="number" step="0.01" v-model="newSales.sales" @keypress="isNumber($event)"
+         class="form-control">
     </div>
     <div class="form-group col-md-12">
         <label>Price</label>
-        <input type="text" v-model="newSales.price" class="form-control">
+        <input type="number" step="0.01" v-model="newSales.price" @keypress="isNumber($event)"
+         class="form-control">
     </div>
 </div>
