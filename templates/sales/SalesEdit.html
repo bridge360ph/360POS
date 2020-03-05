@@ -2,7 +2,7 @@
     <div class="form-group col-md-12">
         <label>Type of Fuel</label>
         <select class="custom-select" v-model="currentSales.type_of_fuel">
-            <option v-for="fuel in typeOfFuel">
+            <option v-for="fuel in typeOfFuel.results">
                 [[ fuel.name ]]
             </option>
         </select>

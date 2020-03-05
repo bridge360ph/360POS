@@ -88,9 +88,9 @@ new Vue({
           .then(() => {
             this.saving = false;
             this.reset();
-            this.fetchSales();
-
+            
             $("#salesModal").modal("hide")
+            this.fetchSales();
           })
           .catch((err) => {
             this.saving = false;
@@ -101,12 +101,12 @@ new Vue({
     fetchTypeOfFuel() {
       this.loading = true;
       let endpoint = `/api/v1/type-of-fuel/`;
-      if (this.typeOfFuel.results) {
+      
+      if (this.typeOfFuel) {
         axios.get(endpoint)
           .then((response) => {
-            this.typeOfFuel.results = response.data;
+            this.typeOfFuel = response.data;
             this.loading = false;
-            console.log(this.typeOfFuel.results);
           })
           .catch((err) => {
             this.loading = false;
