@@ -17,7 +17,7 @@ router.register(r'staff', StaffViewSet, basename='staffs')
 router.register(r'gas-station', GasStationViewSet, basename='gas')
 router.register(r'fuel-pricing', FuelViewSet)
 router.register(r'price-management', PriceManagementViewSet)
-router.register(r'sales', TransactionSalesViewSet)
+router.register(r'sales', TransactionSalesViewSet, basename='sales')
 router.register(r'type-of-fuel', TypeOfFuelViewSet)
 
 

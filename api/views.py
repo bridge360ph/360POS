@@ -1,3 +1,5 @@
+import datetime
+
 from django.db.models import Q
 
 from rest_framework import viewsets
@@ -133,9 +135,22 @@ class PriceManagementViewSet(viewsets.ModelViewSet):
 
 
 class TransactionSalesViewSet(viewsets.ModelViewSet):
-    queryset = TransactionSales.objects.all()
     serializer_class = TransactionSalesSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        today = datetime.date.today()
+
+        if self.request.user.position == 'Cashier':
+            sales = TransactionSales.objects.all()
+            qs = sales.filter(Q(created_at=today))
+            return qs
+        elif self.request.user.position == 'Manager':
+            sales = TransactionSales.objects.all()
+            return sales
+        elif self.request.user.position == 'Owner':
+            sales = TransactionSales.objects.all()
+            return sales
 
     def perform_create(self, serializer):
         cashier = self.request.user.position == 'Cashier'
