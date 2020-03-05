@@ -18,12 +18,47 @@
             </div>
         </div>
     </div>
+    {% if request.user.position == 'Owner' %}
+    <div class="col-md-12 col-sm-12">
+        <div class="card mt-5">
+            <h5 class="card-header">Over all computations</h5>
+            <div class="card-body d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight col-md-4 col-sm-12">
+                    <p>Total sales: <strong>&#8369;{{ sales.sales__sum }}</strong></p>
+                </div>
+                <div class="p-2 bd-highlight col-md-4 col-sm-12">
+                    <p>Total dispensed liter: <strong>{{ liter.dispensed_liter__sum }}</strong> </p>
+                </div>
+                <div class="p-2 bd-highlight col-md-4 col-sm-12">
+                    <p>Total price accumulated: <strong>&#8369;{{price.price__sum}}</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div class="card mt-5 ">
+            <h5 class="card-header">Today's over all computations</h5>
+            <div class="card-body d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight col-md-4 col-sm-12">
+                    <p>Today sales: <strong>&#8369;{{ today_sales.sales__sum }}</strong></p>
+                </div>
+                <div class="p-2 bd-highlight col-md-4 col-sm-12">
+                    <p>Today dispensed liter: <strong>{{ today_liter.dispensed_liter__sum }}</strong> </p>
+                </div>
+                <div class="p-2 bd-highlight col-md-4 col-sm-12">
+                    <p>Today price accumulated: <strong>&#8369;{{today_price.price__sum}}</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
     <div v-if="loading" class="text-center mt-5">
         <div class="spinner-grow text-primary" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <div class="card mt-5" v-else>
+    <div class="card mt-5" v-else-if="!loading">
         <div class="card-header">List of Sales</div>
         <div class="card-body">
             <div class="table-responsive">
