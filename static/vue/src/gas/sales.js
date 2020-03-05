@@ -9,12 +9,17 @@ new Vue({
     return {
       sales: [],
       gasStations: [],
+      apiEndpoint: `/api/v1/sales`,
       typeOfFuel: [],
       loading: false,
       viewing: false,
       saving: false,
       adding: false,
+      paging: false,
       currentSales: {},
+      next: null,
+      previous: null,
+      count: null,
       newSales: {
         'type_of_fuel': null,
         'sales': 0.00,
@@ -30,11 +35,12 @@ new Vue({
   mounted() {
     this.fetchTypeOfFuel();
     this.fetchSales();
+    this.nextPage();
   },
   methods: {
     reset: function () {
       Object.keys(this.newSales).forEach(key => {
-        this.newSales[key] = ""
+        this.newSales[key] = null
       })
     },
     resetFuel: function () {
@@ -95,11 +101,12 @@ new Vue({
     fetchTypeOfFuel() {
       this.loading = true;
       let endpoint = `/api/v1/type-of-fuel/`;
-      if (this.typeOfFuel) {
+      if (this.typeOfFuel.results) {
         axios.get(endpoint)
           .then((response) => {
-            this.typeOfFuel = response.data;
+            this.typeOfFuel.results = response.data;
             this.loading = false;
+            console.log(this.typeOfFuel.results);
           })
           .catch((err) => {
             this.loading = false;
@@ -128,6 +135,7 @@ new Vue({
     fetchSales() {
       this.loading = true;
       let endpoint = `/api/v1/sales/`;
+
       if (this.sales) {
         axios.get(endpoint)
           .then((response) => {
@@ -151,6 +159,72 @@ new Vue({
           })
           .catch((err) => {
             this.viewing = false;
+            console.log(err);
+          })
+      }
+    },
+    nextPage() {
+      this.paging = true;
+      let endpoint = `/api/v1/sales/`;
+
+      if(this.next) {
+        endpoint = this.next;
+      } else if (this.previous) {
+        endpoint = this.previous;
+      }
+
+      if (this.sales) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.sales = response.data;
+            this.paging = false;
+
+            if(response.data.next) {
+              this.next = response.data.next;
+            } else {
+              this.next = null;
+            }
+            
+            if (response.data.previous) {
+              this.previous = response.data.previous;
+            }
+
+          })
+          .catch((err) => {
+            this.paging = false;
+            console.log(err);
+          })
+      }
+    },
+    previousPage() {
+      this.paging = true;
+      let endpoint = `/api/v1/sales/`;
+
+      if(this.previous) {
+        endpoint = this.previous;
+      } else if (this.next) {
+        endpoint = this.next;
+      }
+
+      if (this.sales) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.sales = response.data;
+            this.paging = false;
+
+            if(response.data.next) {
+              this.next = response.data.next;
+            }
+            
+            if (response.data.previous) {
+              this.previous = response.data.previous;
+            } else {
+              this.previous = null;
+            }
+
+          })
+          .catch((err) => {
+            this.paging = false;
             console.log(err);
           })
       }

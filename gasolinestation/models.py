@@ -79,6 +79,9 @@ class TransactionSales(models.Model):
     created_by = models.CharField(max_length=150, null=True, blank=True)
     updated_by = models.CharField(max_length=150, null=True, blank=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return "%s - %s" % (self.gas_station_assigned, self.dispensed_liter)
     

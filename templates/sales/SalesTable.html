@@ -41,22 +41,34 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="7" class="text-center bg-warning" v-if="!sales.length">
+                            <td colspan="7" class="text-center bg-warning" v-if="!sales.results">
                                 Currently there's no <strong>Sales</strong> added.
                             </td>
                         </tr>
-                        <tr v-for="sale in sales">
-                            <td>[[ sale.created_at ]]</td>
-                            <td>[[ sale.type_of_fuel ]]</td>
-                            <td>[[ sale.sales ]]</td>
-                            <td>[[ sale.price ]]</td>
-                            <td>[[ sale.gas_station_assigned ]]</td>
-                            <td>[[ sale.dispensed_liter ]]</td>
-                            <td><a href="#" data-toggle="modal" v-on:click="fetchSale(sale.id)"
+                        <tr v-for="item in sales.results" :key="item.id">
+                            <td>[[ item.created_at ]]</td>
+                            <td>[[ item.type_of_fuel ]]</td>
+                            <td>[[ item.sales ]]</td>
+                            <td>[[ item.price ]]</td>
+                            <td>[[ item.gas_station_assigned ]]</td>
+                            <td>[[ item.dispensed_liter ]]</td>
+                            <td><a href="#" data-toggle="modal" v-on:click="fetchSale(item.id)"
                                     data-target="#editSalesModal" class="badge badge-info">Edit</a></td>
                         </tr>
                     </tbody>
                 </table>
+                <!-- pagination -->
+                <hr>
+                <nav aria-label="..." v-if="next && previous === null">
+                    <ul class="pagination pull-right">
+                        <li :class="[{ disabled: previous === null }, 'page-item']">
+                            <a class="page-link" href="#" @click="previousPage">Previous</a>
+                        </li>
+                        <li :class="[{ disabled: next === null }, 'page-item']">
+                            <a class="page-link" href="#" @click="nextPage">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
@@ -183,5 +195,5 @@
 {% endblock %}
 
 {% block api %}
- <script src="{% static 'vue/src/gas/sales.js' %}" type="text/javascript"></script>
+<script src="{% static 'vue/src/gas/sales.js' %}" type="text/javascript"></script>
 {% endblock %}
