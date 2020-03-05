@@ -30,6 +30,9 @@ class FuelPricing(models.Model):
 class TypeOfFuel(ImportantInfo):
     name = models.CharField(max_length=150, null=True, blank=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return "%s" % (self.name)
 
@@ -62,6 +65,9 @@ class PriceManagement(ImportantInfo):
     type_of_fuel = models.ForeignKey(TypeOfFuel, null=True, blank=True, on_delete=models.PROTECT)
     price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True, default=0.00)
     gas_station_assigned = models.ForeignKey(GasStations, null=True, blank=True, on_delete=models.PROTECT)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
         return "%s - %s" % (self.type_of_fuel, self.price)
