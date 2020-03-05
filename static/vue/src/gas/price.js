@@ -14,7 +14,10 @@ new Vue({
       viewing: false,
       saving: false,
       adding: false,
+      paging: false,
       currentPrice: {},
+      next: null,
+      previous: null,
       newPrice: {
         'type_of_fuel': null,
         'price': 0.00,
@@ -28,6 +31,7 @@ new Vue({
   mounted() {
     this.fetchTypeOfFuel();
     this.fetchPrices();
+    this.nextPage();
   },
   methods: {
     reset: function () {
@@ -148,6 +152,72 @@ new Vue({
           })
           .catch((err) => {
             this.viewing = false;
+            console.log(err);
+          })
+      }
+    },
+    nextPage() {
+      this.paging = true;
+      let endpoint = `/api/v1/price-management/`;
+
+      if(this.next) {
+        endpoint = this.next;
+      } else if (this.previous) {
+        endpoint = this.previous;
+      }
+
+      if (this.prices) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.prices = response.data;
+            this.paging = false;
+
+            if(response.data.next) {
+              this.next = response.data.next;
+            } else {
+              this.next = null;
+            }
+            
+            if (response.data.previous) {
+              this.previous = response.data.previous;
+            }
+
+          })
+          .catch((err) => {
+            this.paging = false;
+            console.log(err);
+          })
+      }
+    },
+    previousPage() {
+      this.paging = true;
+      let endpoint = `/api/v1/price-management/`;
+
+      if(this.previous) {
+        endpoint = this.previous;
+      } else if (this.next) {
+        endpoint = this.next;
+      }
+
+      if (this.prices) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.prices = response.data;
+            this.paging = false;
+
+            if(response.data.next) {
+              this.next = response.data.next;
+            }
+            
+            if (response.data.previous) {
+              this.previous = response.data.previous;
+            } else {
+              this.previous = null;
+            }
+
+          })
+          .catch((err) => {
+            this.paging = false;
             console.log(err);
           })
       }

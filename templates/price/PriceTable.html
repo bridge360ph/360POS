@@ -39,11 +39,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="7" class="text-center bg-warning" v-if="!prices.length">
+                            <td colspan="7" class="text-center bg-warning" v-if="!prices.count">
                                 Currently there's no <strong>prices</strong> added.
                             </td>
                         </tr>
-                        <tr v-for="price in prices">
+                        <tr v-for="price in prices.results">
                             <td>[[ price.created_at ]]</td>
                             <td>[[ price.type_of_fuel ]]</td>
                             <td>[[ price.price ]]</td>
@@ -53,6 +53,18 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- pagination -->
+                <hr>
+                <nav aria-label="...">
+                    <ul class="pagination pull-right">
+                        <li :class="[{ disabled: previous === null }, 'page-item']">
+                            <a class="page-link" href="#" @click="previousPage">Previous</a>
+                        </li>
+                        <li :class="[{ disabled: next === null }, 'page-item']">
+                            <a class="page-link" href="#" @click="nextPage">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
