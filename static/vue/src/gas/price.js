@@ -67,6 +67,7 @@ new Vue({
             this.saving = false;
             this.currentPrice = response.data;
 
+            this.fetchPrices();
             $("#editPriceModal").modal("hide")
           })
           .catch((err) => {
@@ -84,8 +85,8 @@ new Vue({
             this.saving = false;
             this.reset();
             this.fetchPrices();
-
             $("#pricesModal").modal("hide")
+
           })
           .catch((err) => {
             this.saving = false;
