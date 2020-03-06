@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">Bridge360 POS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -8,12 +8,12 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'gas' %}">Gas Station</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'sales' %}">Sales</a>
                 </li>
                 {% if request.user.position == 'Owner' or request.user.position == 'Manager' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'gas' %}">Gas Station</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'prices' %}">Prices</a>
                 </li>
