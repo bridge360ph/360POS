@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+- Gasoline stations
+{% endblock %}
+
 {% load static %}
 
 {% block content %}
@@ -33,12 +37,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="7" class="text-center bg-warning" v-if="!gasStations.length">
+                        <tr v-if="!gasStations.count">
+                            <td colspan="7" class="text-center bg-warning" >
                                 Currently there's no Gas Station added.
                             </td>
                         </tr>
-                        <tr v-for="gas in gasStations">
+                        <tr v-for="gas in gasStations.results" :key="gas.id" v-else>
                             <td>[[ gas.name ]]</td>
                             <td>[[ gas.site_location ]]</td>
                             <td>[[ gas.site_manager ]]</td>
