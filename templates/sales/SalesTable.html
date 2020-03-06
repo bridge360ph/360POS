@@ -179,24 +179,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <template v-for="item in sales.results" :key="item.id">
-                            <tr v-else-if="!sales.count">
-                                <td colspan="7" class="text-center bg-warning">
-                                    Currently there's no <strong>Sales</strong> added.
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>[[ item.created_at ]]</td>
-                                <td>[[ item.type_of_fuel ]]</td>
-                                <td>[[ item.sales ]]</td>
-                                <td>[[ item.price ]]</td>
-                                <td>[[ item.gas_station_assigned ]]</td>
-                                <td>[[ item.dispensed_liter ]]</td>
-                                <td><a href="#" data-toggle="modal" v-on:click="fetchSale(item.id)"
-                                        data-target="#editSalesModal" class="badge badge-info">Edit</a></td>
-                            </tr>
-                        </template>
+                        <tr v-for="item in sales.results" :key="item.id">
+                            <td>[[ item.created_at ]]</td>
+                            <td>[[ item.type_of_fuel ]]</td>
+                            <td>[[ item.sales ]]</td>
+                            <td>[[ item.price ]]</td>
+                            <td>[[ item.gas_station_assigned ]]</td>
+                            <td>[[ item.dispensed_liter ]]</td>
+                            <td><a href="#" data-toggle="modal" v-on:click="fetchSale(item.id)"
+                                    data-target="#editSalesModal" class="badge badge-info">Edit</a></td>
+                        </tr>
+                        <tr v-if="!sales.count">
+                            <td colspan="7" class="text-center bg-warning">
+                                Currently there's no <strong>Sales</strong> added.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <!-- pagination -->
