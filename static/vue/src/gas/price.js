@@ -31,6 +31,7 @@ new Vue({
   mounted() {
     this.fetchTypeOfFuel();
     this.fetchPrices();
+    this.fetchGasStations();
     this.nextPage();
   },
   methods: {
@@ -101,6 +102,21 @@ new Vue({
         axios.get(endpoint)
           .then((response) => {
             this.typeOfFuels = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+      }
+    },
+    fetchGasStations() {
+      this.loading = true;
+      let endpoint = `/api/v1/gas-station/`;
+      if (this.gasStations) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.gasStations = response.data;
             this.loading = false;
           })
           .catch((err) => {

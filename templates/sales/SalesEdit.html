@@ -10,7 +10,7 @@
     <div class="form-group col-md-12">
         <label>Gasoline Station assigned</label>
         <select class="custom-select" v-model="currentSales.gas_station_assigned">
-            <option v-for="gas in gasStations">
+            <option v-for="gas in gasStations.results">
                 [[ gas.name ]]
             </option>
         </select>
@@ -23,4 +23,16 @@
         <label>Price</label>
         <input type="text" v-model="currentSales.price" class="form-control">
     </div>
+    {% if request.user.position == 'Owner' or request.user.position == 'Manager' %}
+    <hr>
+    <h6>Important info</h6>
+    <div class="form-group col-md-12">
+        <label>Created by</label>
+        <input type="text" v-model="currentSales.created_by" class="form-control" disabled>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Updated by</label>
+        <input type="text" v-model="currentSales.updated_by" class="form-control" disabled>
+    </div>
+    {% endif %}
 </div>
