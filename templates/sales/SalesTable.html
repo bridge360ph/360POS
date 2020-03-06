@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+- Sales
+{% endblock %}
+
 {% load static %}
 
 {% block content %}
@@ -20,33 +24,133 @@
     </div>
     {% if request.user.position == 'Owner' %}
     <div class="col-md-12 col-sm-12">
+
         <div class="card mt-5">
-            <h5 class="card-header">Over all computations</h5>
-            <div class="card-body d-flex flex-row bd-highlight mb-3">
-                <div class="p-2 bd-highlight col-md-4 col-sm-12">
-                    <p>Total sales: <strong>&#8369;{{ sales.sales__sum }}</strong></p>
-                </div>
-                <div class="p-2 bd-highlight col-md-4 col-sm-12">
-                    <p>Total dispensed liter: <strong>{{ liter.dispensed_liter__sum }}</strong> </p>
-                </div>
-                <div class="p-2 bd-highlight col-md-4 col-sm-12">
-                    <p>Total price accumulated: <strong>&#8369;{{price.price__sum}}</strong></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12 col-sm-12">
-        <div class="card mt-5 ">
-            <h5 class="card-header">Today's over all computations</h5>
-            <div class="card-body d-flex flex-row bd-highlight mb-3">
-                <div class="p-2 bd-highlight col-md-4 col-sm-12">
-                    <p>Today sales: <strong>&#8369;{{ today_sales.sales__sum }}</strong></p>
-                </div>
-                <div class="p-2 bd-highlight col-md-4 col-sm-12">
-                    <p>Today dispensed liter: <strong>{{ today_liter.dispensed_liter__sum }}</strong> </p>
-                </div>
-                <div class="p-2 bd-highlight col-md-4 col-sm-12">
-                    <p>Today price accumulated: <strong>&#8369;{{today_price.price__sum}}</strong></p>
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                Computations
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <h5>Over all computations</h5>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Total sales: <strong>&#8369;{{ sales.sales__sum }}</strong></p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Total dispensed liter: <strong>{{ liter.dispensed_liter__sum }}</strong> </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Total price accumulated: <strong>&#8369;{{price.price__sum}}</strong></p>
+                                </div>
+                            </div>
+
+                            <h6 class="mt-5">Today's over all computations</h6>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today sales: <strong>
+                                            {% if today_sales.sales__sum == None %}
+                                            {{ today_sales.sales__sum }}
+                                            {% else %}
+                                            &#8369;{{ today_sales.sales__sum }}
+                                            {% endif %}
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today dispensed liter: <strong>
+                                            {{ today_liter.dispensed_liter__sum }}
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today price accumulated: <strong>
+                                            {% if today_price.price__sum == None %}
+                                            {{today_price.price__sum}}
+                                            {% else %}
+                                            &#8369;{{today_price.price__sum}}
+                                            {% endif %}
+                                        </strong>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h6 class="mt-5">Weekly over all computations</h6>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today sales: <strong>
+                                            {% if weekly_sales.sales__sum == None %}
+                                            {{ weekly_sales.sales__sum }}
+                                            {% else %}
+                                            &#8369;{{ weekly_sales.sales__sum }}
+                                            {% endif %}
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today dispensed liter: <strong>
+                                            {{ weekly_liter.dispensed_liter__sum }}
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today price accumulated: <strong>
+                                            {% if weekly_price.price__sum == None %}
+                                            {{weekly_price.price__sum}}
+                                            {% else %}
+                                            &#8369;{{weekly_price.price__sum}}
+                                            {% endif %}
+                                        </strong>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h6 class="mt-5">Yearly over all computations</h6>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today sales: <strong>
+                                            {% if yearly_sales.sales__sum == None %}
+                                            {{ yearly_sales.sales__sum }}
+                                            {% else %}
+                                            &#8369;{{ yearly_sales.sales__sum }}
+                                            {% endif %}
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today dispensed liter: <strong>
+                                            {{ yearly_liter.dispensed_liter__sum }}
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <p>Today price accumulated: <strong>
+                                            {% if yearly_price.price__sum == None %}
+                                            {{yearly_price.price__sum}}
+                                            {% else %}
+                                            &#8369;{{yearly_price.price__sum}}
+                                            {% endif %}
+                                        </strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -75,21 +179,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="7" class="text-center bg-warning" v-if="!sales.results">
-                                Currently there's no <strong>Sales</strong> added.
-                            </td>
-                        </tr>
-                        <tr v-for="item in sales.results" :key="item.id">
-                            <td>[[ item.created_at ]]</td>
-                            <td>[[ item.type_of_fuel ]]</td>
-                            <td>[[ item.sales ]]</td>
-                            <td>[[ item.price ]]</td>
-                            <td>[[ item.gas_station_assigned ]]</td>
-                            <td>[[ item.dispensed_liter ]]</td>
-                            <td><a href="#" data-toggle="modal" v-on:click="fetchSale(item.id)"
-                                    data-target="#editSalesModal" class="badge badge-info">Edit</a></td>
-                        </tr>
+                        <template v-for="item in sales.results" :key="item.id">
+                            <tr v-else-if="!sales.count">
+                                <td colspan="7" class="text-center bg-warning">
+                                    Currently there's no <strong>Sales</strong> added.
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>[[ item.created_at ]]</td>
+                                <td>[[ item.type_of_fuel ]]</td>
+                                <td>[[ item.sales ]]</td>
+                                <td>[[ item.price ]]</td>
+                                <td>[[ item.gas_station_assigned ]]</td>
+                                <td>[[ item.dispensed_liter ]]</td>
+                                <td><a href="#" data-toggle="modal" v-on:click="fetchSale(item.id)"
+                                        data-target="#editSalesModal" class="badge badge-info">Edit</a></td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
                 <!-- pagination -->
