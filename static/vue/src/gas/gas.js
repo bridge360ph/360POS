@@ -14,13 +14,15 @@ new Vue({
       viewing: false,
       saving: false,
       adding: false,
+      next: null,
+      previous: null,
       currentGas: {},
       newGas: {
         'name': null,
         'site_location': null,
         'site_manager': "",
         'site_staff': [],
-        'sales': null,
+        'gasStations': null,
         'volume_of_gasoline': null,
         'price_management_flexibility': null,
         'pricing_for_specific_type_of_fuel': null
@@ -128,6 +130,72 @@ new Vue({
           .catch((err) => {
             this.saving = false;
             console.log(err.response);
+          })
+      }
+    },
+    nextPage() {
+      this.paging = true;
+      let endpoint = `/api/v1/gas-station/`;
+
+      if(this.next) {
+        endpoint = this.next;
+      } else if (this.previous) {
+        endpoint = this.previous;
+      }
+
+      if (this.gasStations) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.gasStations = response.data;
+            this.paging = false;
+
+            if(response.data.next) {
+              this.next = response.data.next;
+            } else {
+              this.next = null;
+            }
+            
+            if (response.data.previous) {
+              this.previous = response.data.previous;
+            }
+
+          })
+          .catch((err) => {
+            this.paging = false;
+            console.log(err);
+          })
+      }
+    },
+    previousPage() {
+      this.paging = true;
+      let endpoint = `/api/v1/gas-station/`;
+
+      if(this.previous) {
+        endpoint = this.previous;
+      } else if (this.next) {
+        endpoint = this.next;
+      }
+
+      if (this.gasStations) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.gasStations = response.data;
+            this.paging = false;
+
+            if(response.data.next) {
+              this.next = response.data.next;
+            }
+            
+            if (response.data.previous) {
+              this.previous = response.data.previous;
+            } else {
+              this.previous = null;
+            }
+
+          })
+          .catch((err) => {
+            this.paging = false;
+            console.log(err);
           })
       }
     },

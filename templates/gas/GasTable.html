@@ -54,6 +54,18 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- pagination -->
+                <hr>
+                <nav aria-label="...">
+                    <ul class="pagination pull-right">
+                        <li :class="[{ disabled: previous === null }, 'page-item']">
+                            <a class="page-link" href="#" @click="previousPage">Previous</a>
+                        </li>
+                        <li :class="[{ disabled: next === null }, 'page-item']">
+                            <a class="page-link" href="#" @click="nextPage">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
