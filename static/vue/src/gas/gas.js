@@ -18,12 +18,12 @@ new Vue({
       previous: null,
       currentGas: {},
       newGas: {
-        'name': null,
-        'site_location': null,
-        'site_manager': "",
+        'name': "",
+        'site_location': "",
+        'site_manager': null,
         'site_staff': [],
         'gasStations': null,
-        'volume_of_gasoline': null,
+        'volume_of_gasoline': "",
         'price_management_flexibility': null,
         'pricing_for_specific_type_of_fuel': null
       }
@@ -33,12 +33,21 @@ new Vue({
     this.fetchGasStations();
     this.fetchManagers();
     this.fetchStaffs();
+    this.nextPage();
   },
   methods: {
     reset: function () {
-      Object.keys(this.newGas).forEach(key => {
-        this.newGas[key] = ""
-      })
+      this.newGas.name = "";
+      this.newGas.site_location = "";
+      this.newGas.site_manager = null;
+      this.newGas.site_staff = [];
+      this.newGas.gasStations = null;
+      this.newGas.volume_of_gasoline = "";
+      this.newGas.price_management_flexibility = null;
+      this.newGas.pricing_for_specific_type_of_fuel = null;
+      // Object.keys(this.newGas).forEach(key => {
+      //   this.newGas[key] = ""
+      // })
     },
     fetchGasStations() {
       this.loading = true;
