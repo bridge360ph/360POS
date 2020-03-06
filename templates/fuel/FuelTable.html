@@ -39,8 +39,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="7" class="text-center bg-warning" v-if="!fuels.results">
+                        <tr v-if="!fuels.count">
+                            <td colspan="7" class="text-center bg-warning">
                                 Currently there's no <strong>Sales</strong> added.
                             </td>
                         </tr>
