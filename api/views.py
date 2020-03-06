@@ -10,12 +10,12 @@ from api.serializers.users import UserSerializer, ManagerSerializer, StaffSerial
 from api.serializers.gasoline import (
     GasolineSerializer, FuelPricingSerializer, PriceManagementSerializer,
     TransactionSalesSerializer, TypeOfFuelSerializer
-    )
+)
 
 from users.models import CustomUser as user
 from gasolinestation.models import (
     GasStations, FuelPricing, PriceManagement, TransactionSales, TypeOfFuel
-    )
+)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,7 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         users = user.objects.all()
         current_user = self.request.user.username
-        
+
         if users:
             qs = users.filter(username=current_user)
             return qs
@@ -37,11 +37,10 @@ class ManagerViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         users = user.objects.all()
-        
+
         if users:
             qs = users.filter(position="Manager")
             return qs
-
 
 
 class StaffViewSet(viewsets.ModelViewSet):
@@ -50,7 +49,7 @@ class StaffViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         users = user.objects.all()
-        
+
         if users:
             qs = users.filter(position="Cashier")
             return qs
@@ -68,19 +67,20 @@ class GasStationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         employee_id = self.request.user.id
-        gas = GasStations.objects.all()
+        if self.request.user.position == 'Cashier':
 
-        if gas:
-            if self.request.user.position == 'Manager':
+            gas = GasStations.objects.all()
+            qs = gas.filter(Q(site_staff=employee_id))
+            return qs
+        if self.request.user.position == 'Manager':
 
-                qs = GasStations.objects.filter(Q(site_manager=employee_id))
-                return qs
-            elif self.request.user.position == 'Cashier':
-                qs = GasStations.objects.filter(Q(site_staff=employee_id))
-                return qs
-                
-            elif self.request.user.position == 'Owner':
-                return gas
+            gas = GasStations.objects.all()
+            qs = gas.filter(Q(site_manager=employee_id))
+            return qs
+        elif self.request.user.position == 'Owner':
+
+            gas = GasStations.objects.all()
+            return gas
 
     def perform_create(self, serializer):
         cashier = self.request.user.position == 'Cashier'
@@ -205,4 +205,3 @@ class TypeOfFuelViewSet(viewsets.ModelViewSet):
             return serializer.save(updated_by=self.request.user.full_name)
         elif owner:
             return serializer.save(updated_by=self.request.user.full_name)
-        
