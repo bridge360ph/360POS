@@ -96,7 +96,7 @@ new Vue({
             this.resetFuel();
             this.saving = false;
 
-            this.fetchTypeOfFuel();
+            this.fetchFuels();
             $("#fuelModal").modal("hide");
           })
           .catch((err) => {
