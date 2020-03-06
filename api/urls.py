@@ -5,7 +5,8 @@ from rest_framework.authtoken import views
 
 from . views import (
     UserViewSet, GasStationViewSet, FuelViewSet,
-    ManagerViewSet, StaffViewSet,
+    ManagerViewSet, StaffViewSet, PriceManagementViewSet,
+    TransactionSalesViewSet, TypeOfFuelViewSet
     )
 
 
@@ -15,6 +16,9 @@ router.register(r'manager', ManagerViewSet, basename='managers')
 router.register(r'staff', StaffViewSet, basename='staffs')
 router.register(r'gas-station', GasStationViewSet, basename='gas')
 router.register(r'fuel-pricing', FuelViewSet)
+router.register(r'price-management', PriceManagementViewSet)
+router.register(r'sales', TransactionSalesViewSet, basename='sales')
+router.register(r'type-of-fuel', TypeOfFuelViewSet)
 
 
 urlpatterns = [

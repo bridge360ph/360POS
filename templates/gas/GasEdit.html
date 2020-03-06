@@ -4,7 +4,7 @@
     <div class="form-group col-md-12">
         <label>Site Manager</label>
         <select class="custom-select" v-model="currentGas.site_manager">
-            <option v-for="manager in managers">
+            <option v-for="manager in managers.results">
                 [[ manager.full_name ]]
             </option>
         </select>
@@ -12,19 +12,21 @@
     <div class="form-group col-md-12">
         <label>Site Staffs</label>
         <select class="custom-select" multiple v-model="currentGas.site_staff">
-            <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+            <option v-for="staff in staffs.results">[[ staff.full_name ]]</option>
           </select>
     </div>
     {% endif %}
 </div>
 <div class="form-group">
     <label>Name</label>
-    <input type="text" v-model="currentGas.name" class="form-control">
+    <input type="text" v-model="currentGas.name" class="form-control"
+    {% if request.user.position == 'Cashier' %} disabled {% endif %}>
 </div>
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="inputCity">Site location</label>
-        <input type="text" v-model="currentGas.site_location" class="form-control">
+        <input type="text" v-model="currentGas.site_location"  class="form-control"
+        {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
 </div>
 <div class="form-row">
@@ -35,11 +37,13 @@
     </div>
     <div class="form-group col-md-12">
         <label for="inputCity">Volume of gasoline</label>
-        <input type="text" v-model="currentGas.volume_of_gasoline" class="form-control">
+        <input type="text" v-model="currentGas.volume_of_gasoline" class="form-control"
+        {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
     <div class="form-group col-md-12">
         <label for="inputCity">Price management flexibility</label>
-        <input type="text" v-model="currentGas.price_management_flexibility" class="form-control">
+        <input type="text" v-model="currentGas.price_management_flexibility" class="form-control"
+        {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
 </div>
 <hr>
@@ -47,12 +51,12 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="inputCity">Created by</label>
-        <input type="text" v-model="currentGas.created_by_staff" disabled class="form-control"
+        <input type="text" v-model="currentGas.created_by" disabled class="form-control"
         {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
     <div class="form-group col-md-6">
         <label for="inputCity">Updated by</label>
-        <input type="text" v-model="currentGas.updated_by_manager" disabled class="form-control">
+        <input type="text" v-model="currentGas.updated_by" disabled class="form-control">
     </div>
 </div>
 <!-- <div class="form-row">

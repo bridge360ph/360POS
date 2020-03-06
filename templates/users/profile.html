@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+- Profile
+{% endblock %}
+
 {% load static %}
 
 {% block content %}
@@ -14,7 +18,7 @@
         </div>
         <div class="card profile" v-else>
             <h5 class="card-header">Account information</h5>
-            <div class="card-body" v-for="profile in profiles" :key="profile">
+            <div class="card-body" v-for="profile in profiles.results" :key="profile">
                 <div class="col-md-12 col-sm-12">
                     <label>Full name:</label> [[ profile.full_name ]]
                 </div>
