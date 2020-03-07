@@ -3,11 +3,13 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
-from . views import (
-    UserViewSet, GasStationViewSet, FuelViewSet,
-    ManagerViewSet, StaffViewSet, PriceManagementViewSet,
-    TransactionSalesViewSet, TypeOfFuelViewSet
-    )
+from api.serializers.fuels import FuelViewSet
+from api.serializers.price import PriceManagementViewSet
+from api.serializers.users import UserViewSet, ManagerViewSet, StaffViewSet
+from api.serializers.sales import TransactionSalesViewSet
+from api.serializers.gasoline import GasStationViewSet
+from api.serializers.price import PriceManagementViewSet
+from api.serializers.type_of_fuel import TypeOfFuelViewSet
 
 
 router = DefaultRouter()

@@ -8,6 +8,7 @@ new Vue({
   data() {
     return {
       gasStations: [],
+      fuels: [],
       managers: [],
       staffs: [],
       loading: false,
@@ -22,10 +23,8 @@ new Vue({
         'site_location': "",
         'site_manager': null,
         'site_staff': [],
-        'gasStations': null,
-        'volume_of_gasoline': "",
-        'price_management_flexibility': null,
-        'pricing_for_specific_type_of_fuel': null
+        'fuels': [],
+        'price_management_flexibility': 0.00
       }
     };
   },
@@ -33,6 +32,7 @@ new Vue({
     this.fetchGasStations();
     this.fetchManagers();
     this.fetchStaffs();
+    this.fetchFuels();
     this.nextPage();
   },
   methods: {
@@ -41,6 +41,8 @@ new Vue({
       this.newGas.site_location = "";
       this.newGas.site_manager = null;
       this.newGas.site_staff = [];
+      this.newGas.fuels = [];
+      this.newGas.sales = "";
       this.newGas.gasStations = null;
       this.newGas.volume_of_gasoline = "";
       this.newGas.price_management_flexibility = null;
@@ -109,6 +111,22 @@ new Vue({
           })
       }
     },
+    fetchFuels() {
+      this.loading = true;
+      let endpoint = `/api/v1/type-of-fuel/`;
+      
+      if (this.fuels) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.fuels = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+      }
+    },
     updateGas() {
       this.saving = true;
       let endpoint = `/api/v1/gas-station/${this.currentGas.id}/`;
@@ -135,6 +153,7 @@ new Vue({
           .then(() => {
             this.reset();
             this.saving = false;
+            this.fetchGasStations();
           })
           .catch((err) => {
             this.saving = false;

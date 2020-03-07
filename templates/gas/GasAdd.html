@@ -1,75 +1,41 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% block content %}
-<div id="pos-gas" v-cloak>
-    <div class="container mt-5">
-        <h1>Add Gasoline Station Information</h1>
-        <hr>
-        <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="adding">
-            Success!
-        </div>
-        <form @submit.prevent="addGas">
-            {% if request.user.position == 'Manager' or request.user.position == 'Cashier' %}
-            <div class="form-row">
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Name</label>
-                    <input type="text" v-model="newGas.name" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Site location</label>
-                    <input type="text" v-model="newGas.site_location" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Sales</label>
-                    <input type="text" v-model="newGas.sales" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Volume of Gasoline</label>
-                    <input type="text" v-model="newGas.volume_of_gasoline" class="form-control">
-                </div>
-            </div>
-            {% elif request.user.position == 'Owner' %}
-            <div class="form-row">
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Name</label>
-                    <input type="text" v-model="newGas.name" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Site location</label>
-                    <input type="text" v-model="newGas.site_location" class="form-control">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Site Manager</label>
-                    <select class="custom-select" v-model="newGas.site_manager">
-                        <option v-for="manager in managers.results">
-                            [[ manager.full_name ]]
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Site Staffs</label>
-                    <select class="custom-select" multiple v-model="newGas.site_staff">
-                        <option v-for="staff in staffs.results">[[ staff.full_name ]]</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Price management flexibility</label>
-                    <input type="text" v-model="newGas.price_management_flexibility" class="form-control">
-                </div>
-            </div>
-            {% endif %}
-            <template v-if="saving">
-                <button type="button" class="btn btn-success pull-right" disabled><i class="fa fa-spinner fa-spin"></i>
-                    Add</button>
-            </template>
-            <template v-else>
-                <button type="submit" class="btn btn-success pull-right">Add</button>
-            </template>
-        </form>
+<div class="alert alert-success alert-dismissible fade show" role="alert" v-if="adding">
+    Success!
+</div>
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label>Name</label>
+        <input type="text" v-model="newGas.name" class="form-control">
+    </div>
+    <div class="form-group col-md-12">
+        <label>Site location</label>
+        <input type="text" v-model="newGas.site_location" class="form-control">
+    </div>
+    <div class="form-group col-md-12">
+        <label>Sales</label>
+        <input type="text" v-model="newGas.sales" class="form-control">
+    </div>
+    <div class="form-group col-md-12">
+        <label>Site Manager</label>
+        <select class="custom-select" v-model="newGas.site_manager">
+            <option v-for="manager in managers.results">
+                [[ manager.full_name ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Site Staffs</label>
+        <select class="custom-select" multiple v-model="newGas.site_staff">
+            <option v-for="staff in staffs.results">[[ staff.full_name ]]</option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Type of fuels</label>
+        <select class="custom-select" multiple v-model="newGas.fuels">
+            <option v-for="item in fuels.results">[[ item.name ]]</option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Price</label>
+        <input type="number" v-model="newGas.price_management_flexibility" class="form-control">
     </div>
 </div>
-{% endblock %}

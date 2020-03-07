@@ -8,6 +8,7 @@
 
 <div class="container">
     <div class="card-group">
+        {% if request.user.position == 'Cashier' %}
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
                 <a href="{% url 'sales' %}" class="card-header">Sales</a>
@@ -17,7 +18,7 @@
                 </div>
             </div>
         </div>
-        {% if request.user.position == 'Owner' or request.user.position == 'Manager' %}
+        {% elif request.user.position == 'Owner' or request.user.position == 'Manager' %}
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
                 <a href="{% url 'gas' %}" class="card-header">Gas Station</a>
@@ -32,6 +33,15 @@
                 <a href="{% url 'prices' %}" class="card-header">Price Management</a>
                 <div class="card-body">
                     <p class="card-text">View all <strong>Price</strong> data.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
+            <div class="card mb-3">
+                <a href="{% url 'fuels' %}" class="card-header">Fuel Type</a>
+                <div class="card-body">
+                    <p class="card-text">View all <strong>Fuel type</strong> data.
                     </p>
                 </div>
             </div>
