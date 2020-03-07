@@ -28,11 +28,18 @@ class GasStationViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         employee_id = self.request.user.id
 
-        if self.request.user.position == 'Manager':
+        if self.request.user.position == 'Cashier':
+
+            gas = GasStations.objects.all()
+            qs = gas.filter(Q(site_staff=employee_id))
+            return qs
+
+        elif self.request.user.position == 'Manager':
 
             gas = GasStations.objects.all()
             qs = gas.filter(Q(site_manager=employee_id))
             return qs
+            
         elif self.request.user.position == 'Owner':
 
             gas = GasStations.objects.all()
