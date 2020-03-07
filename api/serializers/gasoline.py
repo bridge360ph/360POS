@@ -1,18 +1,14 @@
-from rest_framework import serializers
+from django.db.models import Q
+
+from rest_framework import serializers, viewsets
 from rest_framework.fields import SerializerMethodField
+from rest_framework.permissions import IsAuthenticated
+
 
 from users.models import CustomUser as user
 from gasolinestation.models import (
-    GasStations, FuelPricing, PriceManagement,
-    TypeOfFuel, TransactionSales
+    GasStations, FuelPricing,
     )
-
-
-class FuelPricingSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = FuelPricing
-        fields = "__all__"
 
 
 class GasolineSerializer(serializers.ModelSerializer):
@@ -25,30 +21,44 @@ class GasolineSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PriceManagementSerializer(serializers.ModelSerializer):
-    type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
-    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
+class GasStationViewSet(viewsets.ModelViewSet):
+    serializer_class = GasolineSerializer
+    permission_classes = [IsAuthenticated]
 
-    class Meta:
-        model = PriceManagement
-        fields = '__all__'
+    def get_queryset(self):
+        employee_id = self.request.user.id
+        if self.request.user.position == 'Cashier':
 
+            gas = GasStations.objects.all()
+            qs = gas.filter(Q(site_staff=employee_id))
+            return qs
+        if self.request.user.position == 'Manager':
 
-class TransactionSalesSerializer(serializers.ModelSerializer):
-    type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
-    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
-    fuel_price = SerializerMethodField()
+            gas = GasStations.objects.all()
+            qs = gas.filter(Q(site_manager=employee_id))
+            return qs
+        elif self.request.user.position == 'Owner':
 
-    class Meta:
-        model = TransactionSales
-        fields = '__all__'
+            gas = GasStations.objects.all()
+            return gas
 
-    def get_fuel_price(self, obj):
-        return str(obj.type_of_fuel) + ' - ' + str(obj.price)
-        
+    def perform_create(self, serializer):
+        cashier = self.request.user.position == 'Cashier'
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
 
-class TypeOfFuelSerializer(serializers.ModelSerializer):
+        if cashier:
+            return serializer.save(created_by=self.request.user.full_name)
+        elif manager:
+            return serializer.save(site_manager=self.request.user, created_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save()
 
-    class Meta:
-        model = TypeOfFuel
-        fields = "__all__"
+    def perform_update(self, serializer):
+        manager = self.request.user.position == 'Manager'
+        owner = self.request.user.position == 'Owner'
+
+        if manager:
+            return serializer.save(updated_by=self.request.user.full_name)
+        elif owner:
+            return serializer.save(updated_by=self.request.user.full_name)
