@@ -8,23 +8,32 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Overview</a>
+                </li>
+                {% if request.user.position == 'Cashier' %}
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'sales' %}">Sales</a>
                 </li>
-                {% if request.user.position == 'Owner' or request.user.position == 'Manager' %}
+                {% elif request.user.position == 'Owner' or request.user.position == 'Manager' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'gas' %}">Gas Station</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'prices' %}">Prices</a>
+                    <a class="nav-link" href="{% url 'prices' %}">Price</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'fuels' %}">Fuels</a>
+                    <a class="nav-link" href="{% url 'fuels' %}">Fuel Type</a>
                 </li>
                 {% endif %}
             </ul>
             <span class="nav-item dropdown navbar-right">
                 <a href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
+                    {% if request.user.position == 'Cashier' %}
+                    {{ request.user.full_name }}
+                    {% else %}
+                    {{ request.user.username }}
+                    {% endif %}
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
