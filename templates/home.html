@@ -7,6 +7,46 @@
 {% block content %}
 
 <div class="container">
+    {% if request.user.position == 'Cashier' %}
+    <div class="card">
+        <div class="card-header">
+            Computations
+        </div>
+        <div class="card-body">
+            <h6>Weekly over all computations</h6>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <p>Weekly sales: <strong>
+                            {% if weekly_sales.sales__sum == None %}
+                            {{ weekly_sales.sales__sum }}
+                            {% else %}
+                            &#8369;{{ weekly_sales.sales__sum }}
+                            {% endif %}
+                        </strong>
+                    </p>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <p>Weekly dispensed liter: <strong>
+                            {{ weekly_liter.dispensed_liter__sum }}
+                        </strong>
+                    </p>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <p>Weekly price accumulated: <strong>
+                            {% if weekly_price.price__sum == None %}
+                            {{weekly_price.price__sum}}
+                            {% else %}
+                            &#8369;{{weekly_price.price__sum}}
+                            {% endif %}
+                        </strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="card-group">
         {% if request.user.position == 'Cashier' %}
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
