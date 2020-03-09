@@ -1,4 +1,4 @@
-from gasolinestation.models import GasStations
+from gasolinestation.models import GasStations, PriceManagement
 
 from django.core.management.base import BaseCommand
 
@@ -12,4 +12,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         GasStations.objects.all().update(name="")
+        PriceManagement.objects.all().update(gas_station_assigned="")
         self.stdout.write(self.style.SUCCESS("Gas station's name is now empty"))
