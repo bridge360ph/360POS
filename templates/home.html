@@ -61,6 +61,15 @@
         {% elif request.user.position == 'Owner' or request.user.position == 'Manager' %}
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
+                <a href="{% url 'sales' %}" class="card-header">Sales</a>
+                <div class="card-body">
+                    <p class="card-text">View all <strong>Sales</strong> data for today.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
+            <div class="card mb-3">
                 <a href="{% url 'gas' %}" class="card-header">Gas Station</a>
                 <div class="card-body">
                     <p class="card-text">View all <strong>Gas Station</strong> data.
