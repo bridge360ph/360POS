@@ -14,6 +14,16 @@ class ImportantInfo(models.Model):
     updated_by = models.CharField(max_length=150, null=True, blank=True)
 
 
+class GasolineStation(ImportantInfo):
+    name = models.CharField(max_length=250, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-name']
+
+    def __str__(self):
+        return "%s" % (self.name)
+
+
 class FuelPricing(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=150, null=True, blank=True)
