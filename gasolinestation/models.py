@@ -73,7 +73,7 @@ class GasStations(models.Model):
 class PriceManagement(ImportantInfo):
     type_of_fuel = models.ForeignKey(TypeOfFuel, null=True, blank=True, on_delete=models.PROTECT)
     price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True, default=0.00)
-    gas_station_assigned = models.ForeignKey(GasStations, null=True, blank=True, on_delete=models.PROTECT)
+    gas_station_assigned = models.ForeignKey(GasolineStation, null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         ordering = ['-created_at']

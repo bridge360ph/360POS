@@ -7,12 +7,12 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from gasolinestation.models import PriceManagement, TypeOfFuel, GasStations
+from gasolinestation.models import PriceManagement, TypeOfFuel, GasolineStation
 
 
 class PriceManagementSerializer(serializers.ModelSerializer):
     type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
-    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
+    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = PriceManagement
