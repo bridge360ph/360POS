@@ -8,6 +8,7 @@ from api.serializers.price import PriceManagementViewSet
 from api.serializers.users import UserViewSet, ManagerViewSet, StaffViewSet
 from api.serializers.sales import TransactionSalesViewSet
 from api.serializers.gasoline import GasStationViewSet
+from api.serializers.gasoline_stations import GasolineStationViewSet
 from api.serializers.price import PriceManagementViewSet
 from api.serializers.type_of_fuel import TypeOfFuelViewSet
 
@@ -17,6 +18,7 @@ router.register(r'user', UserViewSet, basename='users')
 router.register(r'manager', ManagerViewSet, basename='managers')
 router.register(r'staff', StaffViewSet, basename='staffs')
 router.register(r'gas-station', GasStationViewSet, basename='gas')
+router.register(r'gasoline-stations', GasolineStationViewSet)
 router.register(r'fuel-pricing', FuelViewSet)
 router.register(r'price-management', PriceManagementViewSet)
 router.register(r'sales', TransactionSalesViewSet, basename='sales')
