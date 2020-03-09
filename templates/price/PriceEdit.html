@@ -10,7 +10,7 @@
     <div class="form-group col-md-12">
         <label>Gasoline Station assigned</label>
         <select class="custom-select" v-model="currentPrice.gas_station_assigned">
-            <option v-for="gas in gasStations.results">
+            <option v-for="gas in gasolineStations.results">
                 [[ gas.name ]]
             </option>
         </select>
