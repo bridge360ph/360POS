@@ -1,11 +1,11 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label>Type of Fuel</label>
-        <select class="custom-select" v-model="currentPrice.type_of_fuel">
-            <option v-for="fuel in typeOfFuels.results">
-                [[ fuel.name ]]
-            </option>
-        </select>
+        <input type="text" v-model="currentPrice.name" class="form-control">
+    </div>
+    <div class="form-group col-md-12">
+        <label>price</label>
+        <input type="number" step="0.01" v-model="currentPrice.price" class="form-control">
     </div>
     <div class="form-group col-md-12">
         <label>Gasoline Station assigned</label>
@@ -14,10 +14,6 @@
                 [[ gas.name ]]
             </option>
         </select>
-    </div>
-    <div class="form-group col-md-12">
-        <label>Price</label>
-        <input type="text" v-model="currentPrice.price" class="form-control">
     </div>
     <hr>
     <h5>Important Info</h5>

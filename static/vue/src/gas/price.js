@@ -8,9 +8,7 @@ new Vue({
   data() {
     return {
       prices: [],
-      gasStations: [],
       gasolineStations: [],
-      typeOfFuels: [],
       loading: false,
       viewing: false,
       saving: false,
@@ -20,17 +18,13 @@ new Vue({
       next: null,
       previous: null,
       newPrice: {
-        'type_of_fuel': null,
+        'name': null,
         'price': 0.00,
         'gas_station_assigned': null,
       },
-      newFuel: {
-        'name': "",
-      }
     };
   },
   mounted() {
-    this.fetchTypeOfFuel();
     this.fetchPrices();
     this.fetchGasolineStations();
     this.nextPage();
@@ -41,11 +35,6 @@ new Vue({
         this.newPrice[key] = ""
       })
     },
-    resetFuel: function () {
-        Object.keys(this.newFuel).forEach(key => {
-          this.newFuel[key] = ""
-        })
-      },
     isNumber($event) {
       // console.log($event.keyCode); //keyCodes value
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -62,7 +51,7 @@ new Vue({
     },
     updatePrice() {
       this.saving = true;
-      let endpoint = `/api/v1/price-management/${this.currentPrice.id}/`;
+      let endpoint = `/api/v1/fuel-prices/${this.currentPrice.id}/`;
       if (this.currentPrice) {
         axios.put(endpoint, this.currentPrice)
           .then((response) => {
@@ -82,7 +71,7 @@ new Vue({
       this.saving = true;
       this.adding = true;
       if (this.newPrice) {
-        axios.post(`/api/v1/price-management/`, this.newPrice)
+        axios.post(`/api/v1/fuel-prices/`, this.newPrice)
           .then(() => {
             this.saving = false;
             this.reset();
@@ -93,36 +82,6 @@ new Vue({
           .catch((err) => {
             this.saving = false;
             console.log(err.response);
-          })
-      }
-    },
-    fetchTypeOfFuel() {
-      this.loading = true;
-      let endpoint = `/api/v1/type-of-fuel/`;
-      if (this.typeOfFuels) {
-        axios.get(endpoint)
-          .then((response) => {
-            this.typeOfFuels = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
-          })
-      }
-    },
-    fetchGasStations() {
-      this.loading = true;
-      let endpoint = `/api/v1/gas-station/`;
-      if (this.gasStations) {
-        axios.get(endpoint)
-          .then((response) => {
-            this.gasStations = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
           })
       }
     },
@@ -141,27 +100,9 @@ new Vue({
           })
       }
     },
-    addTypeOfFuel() {
-      this.saving = true;
-      this.adding = true;
-      if (this.newFuel) {
-        axios.post(`/api/v1/type-of-fuel/`, this.newFuel)
-          .then(() => {
-            this.saving = false;
-
-            this.resetFuel();
-            this.fetchTypeOfFuel();
-            $("#fuelModal").modal("hide");
-          })
-          .catch((err) => {
-            this.saving = false;
-            console.log(err.response);
-          })
-      }
-    },
     fetchPrices() {
       this.loading = true;
-      let endpoint = `/api/v1/price-management/`;
+      let endpoint = `/api/v1/fuel-prices/`;
       if (this.prices) {
         axios.get(endpoint)
           .then((response) => {
@@ -176,7 +117,7 @@ new Vue({
     },
     fetchPrice(id) {
       this.viewing = true;
-      let endpoint = `/api/v1/price-management/${id}/`;
+      let endpoint = `/api/v1/fuel-prices/${id}/`;
       if (this.currentPrice) {
         axios.get(endpoint)
           .then((response) => {
@@ -191,7 +132,7 @@ new Vue({
     },
     nextPage() {
       this.paging = true;
-      let endpoint = `/api/v1/price-management/`;
+      let endpoint = `/api/v1/fuel-prices/`;
 
       if(this.next) {
         endpoint = this.next;
@@ -224,7 +165,7 @@ new Vue({
     },
     previousPage() {
       this.paging = true;
-      let endpoint = `/api/v1/price-management/`;
+      let endpoint = `/api/v1/fuel-prices/`;
 
       if(this.previous) {
         endpoint = this.previous;

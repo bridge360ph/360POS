@@ -15,10 +15,6 @@
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" data-toggle="modal" data-target="#pricesModal" class="btn btn-success">Add
                     Price</button>
-                {% if request.user.position == 'Manager' or request.user.position == 'Owner' %}
-                <button type="button" data-toggle="modal" data-target="#fuelModal" class="btn btn-primary">Add type of
-                    fuel</button>
-                {% endif %}
             </div>
         </div>
     </div>
@@ -49,7 +45,7 @@
                         </tr>
                         <tr v-for="price in prices.results">
                             <td>[[ price.created_at ]]</td>
-                            <td>[[ price.type_of_fuel ]]</td>
+                            <td>[[ price.name ]]</td>
                             <td>[[ price.price ]]</td>
                             <td>[[ price.gas_station_assigned ]]</td>
                             <td><a href="#" data-toggle="modal" v-on:click="fetchPrice(price.id)"
@@ -135,45 +131,6 @@
                         </template>
                         <template v-else>
                             {% include 'price/PriceAdd.html' %}
-                        </template>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <template v-if="saving">
-                            <button type="button" class="btn btn-primary" disabled><i class="fa fa-spinner fa-spin"></i>
-                                Save
-                                changes</button>
-                        </template>
-                        <template v-else>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </template>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Fuel Modal -->
-    <div class="modal fade" id="fuelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form v-on:submit.prevent="addTypeOfFuel">
-                    <div class="modal-body">
-                        <template v-if="viewing">
-                            <div class="text-center">
-                                <div class="spinner-grow text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </template>
-                        <template v-else>
-                            {% include 'fuel/FuelAdd.html' %}
                         </template>
                     </div>
                     <div class="modal-footer">
