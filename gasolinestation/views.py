@@ -38,7 +38,7 @@ class AddGasView(LoginRequiredMixin, TemplateView):
 
 class SalesView(LoginRequiredMixin, TemplateView):
     model = TransactionSales
-    template_name = 'sales/SalesTable.html'
+    template_name = 'sales/TransactionsTable.html'
 
     def get(self, request):
         today = datetime.today()

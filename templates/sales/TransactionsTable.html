@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-- Sales
+- Transactions
 {% endblock %}
 
 {% load static %}
 
 {% block content %}
-<div id="pos-sales" v-cloak>
+<div id="pos-transactions" v-cloak>
     <div class="mt-3">
-        <h1>Manage Sales</h1>
+        <h1>Manage Transactions</h1>
         <hr>
         <div class="form-row">
             <div class="btn-group" role="group" aria-label="Basic example">
@@ -179,17 +179,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in sales.results" :key="item.id">
+                        <tr v-for="item in transactions.results" :key="item.id">
                             <td>[[ item.created_at ]]</td>
-                            <td>[[ item.type_of_fuel ]]</td>
+                            <td>[[ item.fuel ]]</td>
                             <td>[[ item.sales ]]</td>
-                            <td>[[ item.price ]]</td>
+                            <td>[[ item.fuel_price ]]</td>
                             <td>[[ item.gas_station_assigned ]]</td>
                             <td>[[ item.dispensed_liter ]]</td>
-                            <td><a href="#" data-toggle="modal" v-on:click="fetchSale(item.id)"
+                            <td><a href="#" data-toggle="modal" v-on:click="fetchTransaction(item.id)"
                                     data-target="#editSalesModal" class="badge badge-info">Edit</a></td>
                         </tr>
-                        <tr v-if="!sales.count">
+                        <tr v-if="!transactions.count">
                             <td colspan="7" class="text-center bg-warning">
                                 Currently there's no <strong>Sales</strong> added.
                             </td>
@@ -223,7 +223,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form v-on:submit.prevent="updateSales">
+                <form v-on:submit.prevent="updateTransaction">
                     <div class="modal-body">
                         <template v-if="viewing">
                             <div class="text-center">
@@ -233,7 +233,7 @@
                             </div>
                         </template>
                         <template v-else>
-                            {% include 'sales/SalesEdit.html' %}
+                            {% include 'sales/TransactionsEdit.html' %}
                         </template>
                     </div>
                     <div class="modal-footer">
@@ -263,7 +263,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form v-on:submit.prevent="addSales">
+                <form v-on:submit.prevent="addTransactions">
                     <div class="modal-body">
                         <template v-if="viewing">
                             <div class="text-center">
@@ -273,46 +273,7 @@
                             </div>
                         </template>
                         <template v-else>
-                            {% include 'sales/SalesAdd.html' %}
-                        </template>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <template v-if="saving">
-                            <button type="button" class="btn btn-primary" disabled><i class="fa fa-spinner fa-spin"></i>
-                                Save
-                                changes</button>
-                        </template>
-                        <template v-else>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </template>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Fuel Modal -->
-    <div class="modal fade" id="fuelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form v-on:submit.prevent="addTypeOfFuel">
-                    <div class="modal-body">
-                        <template v-if="viewing">
-                            <div class="text-center">
-                                <div class="spinner-grow text-primary" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
-                        </template>
-                        <template v-else>
-                            {% include 'gas/FuelAdd.html' %}
+                            {% include 'sales/TransactionsAdd.html' %}
                         </template>
                     </div>
                     <div class="modal-footer">

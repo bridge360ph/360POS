@@ -21,7 +21,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_fuel_name(self, obj):
-        return "%s" % (obj.fuel.type_of_fuel.name)
+        return "%s" % (obj.fuel.name)
 
     def get_fuel_price(self, obj):
         return "%s" % (obj.fuel.price)

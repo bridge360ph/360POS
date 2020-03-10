@@ -1,0 +1,23 @@
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label>Fuel</label>
+        <select class="custom-select" v-model="newTransactions.fuel">
+            <option v-for="fuel in fuelPrices.results">
+                [[ fuel.name ]] - [[ fuel.price ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Gasoline Station assigned</label>
+        <select class="custom-select" v-model="newTransactions.gas_station_assigned">
+            <option v-for="gas in gasStations.results">
+                [[ gas.name ]]
+            </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <label>Sales</label>
+        <input type="number" step="0.01" v-model="newTransactions.sales" @keypress="isNumber($event)"
+         class="form-control">
+    </div>
+</div>
