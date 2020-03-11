@@ -8,6 +8,7 @@ new Vue({
   data() {
     return {
       gasStations: [],
+      gasolineStations: [],
       fuels: [],
       managers: [],
       staffs: [],
@@ -23,13 +24,13 @@ new Vue({
         'site_location': "",
         'site_manager': null,
         'site_staff': [],
-        'fuels': [],
-        'price_management_flexibility': 0.00
+        'fuel_prices': [],
       }
     };
   },
   mounted() {
     this.fetchGasStations();
+    this.fetchGasolineStations();
     this.fetchManagers();
     this.fetchStaffs();
     this.fetchFuels();
@@ -37,19 +38,11 @@ new Vue({
   },
   methods: {
     reset: function () {
-      this.newGas.name = "";
+      this.newGas.name = null;
       this.newGas.site_location = "";
       this.newGas.site_manager = null;
       this.newGas.site_staff = [];
-      this.newGas.fuels = [];
-      this.newGas.sales = "";
-      this.newGas.gasStations = null;
-      this.newGas.volume_of_gasoline = "";
-      this.newGas.price_management_flexibility = null;
-      this.newGas.pricing_for_specific_type_of_fuel = null;
-      // Object.keys(this.newGas).forEach(key => {
-      //   this.newGas[key] = ""
-      // })
+      this.newGas.fuel_prices = [];
     },
     fetchGasStations() {
       this.loading = true;
@@ -58,6 +51,21 @@ new Vue({
         axios.get(endpoint)
           .then((response) => {
             this.gasStations = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+      }
+    },
+    fetchGasolineStations() {
+      this.loading = true;
+      let endpoint = `/api/v1/gasoline-stations/`;
+      if (this.gasolineStations) {
+        axios.get(endpoint)
+          .then((response) => {
+            this.gasolineStations = response.data;
             this.loading = false;
           })
           .catch((err) => {
@@ -113,7 +121,7 @@ new Vue({
     },
     fetchFuels() {
       this.loading = true;
-      let endpoint = `/api/v1/type-of-fuel/`;
+      let endpoint = `/api/v1/fuel-prices/`;
       
       if (this.fuels) {
         axios.get(endpoint)

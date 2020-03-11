@@ -1,8 +1,9 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label>Name</label>
-        <input type="text" v-model="currentGas.name" class="form-control" {% if request.user.position == 'Cashier' %}
-            disabled {% endif %}>
+        <select class="custom-select" v-model="currentGas.name">
+            <option v-for="item in gasolineStations.results">[[ item.name ]]</option>
+        </select>
     </div>
     <div class="form-group col-md-12">
         <label for="inputCity">Site location</label>
@@ -24,18 +25,10 @@
         </select>
     </div>
     <div class="form-group col-md-12">
-        <label>Type of fuels</label>
-        <select class="custom-select" multiple v-model="currentGas.fuels">
-            <option v-for="item in fuels.results">[[ item.name ]]</option>
+        <label>Fuel Prices</label>
+        <select class="custom-select" multiple v-model="currentGas.fuel_prices">
+            <option v-for="item in fuels.results">[[ item.name ]] - [[ item.price ]]</option>
         </select>
-    </div>
-</div>
-
-<div class="form-row">
-    <div class="form-group col-md-12">
-        <label for="inputCity">Prices</label>
-        <input type="text" v-model="currentGas.price_management_flexibility" class="form-control"
-            {% if request.user.position == 'Cashier' %} disabled {% endif %}>
     </div>
 </div>
 <hr>
