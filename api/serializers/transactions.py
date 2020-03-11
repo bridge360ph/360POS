@@ -36,7 +36,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
         if self.request.user.position == 'Cashier':
             sales = Transactions.objects.all()
-            qs = sales.filter(Q(created_at=today))
+            qs = sales.filter(Q(created_at=today), Q(gas_station_assigned=self.request.user.gas_station_assigned))
             return qs
         elif self.request.user.position == 'Manager':
             sales = Transactions.objects.all()
@@ -51,7 +51,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         owner = self.request.user.position == 'Owner'
 
         if cashier:
-            return serializer.save(created_by=self.request.user.full_name)
+            return serializer.save(created_by=self.request.user.full_name, gas_station_assigned=self.request.user.gas_station_assigned)
         elif manager:
             return serializer.save(created_by=self.request.user.full_name)
         elif owner:
