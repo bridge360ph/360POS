@@ -23,6 +23,15 @@ class FuelPriceViewSet(viewsets.ModelViewSet):
     serializer_class = FuelPriceSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        if self.request.user.position == 'Cashier' or self.request.user.position == 'Manager':
+            fuels = FuelPrices.objects.all()
+            qs = fuels.filter(Q(gas_station_assigned=self.request.user.gas_station_assigned))
+            return qs
+        elif self.request.user.position == 'Owner':
+            fuels = FuelPrices.objects.all()
+            return fuels
+
     def perform_create(self, serializer):
         cashier = self.request.user.position == 'Cashier'
         manager = self.request.user.position == 'Manager'
