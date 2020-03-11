@@ -6,7 +6,6 @@ from rest_framework.authtoken import views
 from api.serializers.fuels import FuelViewSet
 from api.serializers.price import PriceManagementViewSet
 from api.serializers.users import UserViewSet, ManagerViewSet, StaffViewSet
-from api.serializers.sales import TransactionSalesViewSet
 from api.serializers.gasoline import GasStationViewSet
 from api.serializers.gasoline_stations import GasolineStationViewSet
 from api.serializers.price import PriceManagementViewSet
@@ -23,7 +22,6 @@ router.register(r'gas-station', GasStationViewSet, basename='gas')
 router.register(r'gasoline-stations', GasolineStationViewSet)
 router.register(r'fuel-pricing', FuelViewSet)
 router.register(r'price-management', PriceManagementViewSet)
-router.register(r'sales', TransactionSalesViewSet, basename='sales')
 router.register(r'type-of-fuel', TypeOfFuelViewSet)
 router.register(r'fuel-prices', FuelPriceViewSet)
 router.register(r'transactions', TransactionViewSet, basename='transaction')
