@@ -1,6 +1,6 @@
-import datetime
+from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Q, Sum, Avg, Max, Min
 
 from rest_framework import serializers, viewsets
 from rest_framework.fields import SerializerMethodField
@@ -15,7 +15,6 @@ class TransactionSerializer(serializers.ModelSerializer):
     gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
     fuel_name = SerializerMethodField()
     fuel_price = SerializerMethodField()
-
     class Meta:
         model = Transactions
         fields = "__all__"
@@ -32,7 +31,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        today = datetime.date.today()
+        today = datetime.today()
 
         if self.request.user.position == 'Cashier':
             sales = Transactions.objects.all()

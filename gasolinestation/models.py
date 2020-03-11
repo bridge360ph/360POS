@@ -85,12 +85,17 @@ class Transactions(ImportantInfo):
     gas_station_assigned = models.ForeignKey(GasolineStation, null=True, blank=True, on_delete=models.PROTECT)
     sales = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True, default=0.00)
     dispensed_liter = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True, default=0.00)
+    prices = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True, default=0.00)
     
     class Meta:
         ordering = ['-created_at']
 
     def __str__(self):
         return "%s - %s" % (self.gas_station_assigned, self.dispensed_liter)
+
+    def calculate_prices(self):
+        price = Decimal(self.fuel.price)
+        return price
     
     def calculate_dispensed_liter(self):
         liter = Decimal(self.sales) / Decimal(self.fuel.price)
@@ -99,6 +104,7 @@ class Transactions(ImportantInfo):
     
     def save(self, *args, **kwargs):
         self.dispensed_liter = self.calculate_dispensed_liter()
+        self.prices = self.calculate_prices()
         super().save(*args, **kwargs)
 
 

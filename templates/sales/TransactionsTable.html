@@ -40,13 +40,19 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Total sales: <strong>&#8369;{{ sales.sales__sum }}</strong></p>
+                                    <p>Over all sales: <strong>&#8369;{{ sales.sales__sum }}</strong></p>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Total dispensed liter: <strong>{{ liter.dispensed_liter__sum }}</strong> </p>
+                                    <p>Over all total dispensed liter: <strong>{{ liter.dispensed_liter__sum }}</strong> </p>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Total price accumulated: <strong>&#8369;{{price.price__sum}}</strong></p>
+                                    <p>Over all total price accumulated: <strong>
+                                        {% if price.prices__sum == None %}
+                                        {{ price.prices__sum }}
+                                        {% else %}
+                                        &#8369;{{price.prices__sum}}
+                                        {% endif %}
+                                    </strong></p>
                                 </div>
                             </div>
 
@@ -72,10 +78,10 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">
                                     <p>Today price accumulated: <strong>
-                                            {% if today_price.price__sum == None %}
-                                            {{today_price.price__sum}}
+                                            {% if today_price.prices__sum == None %}
+                                            {{today_price.prices__sum}}
                                             {% else %}
-                                            &#8369;{{today_price.price__sum}}
+                                            &#8369;{{today_price.prices__sum}}
                                             {% endif %}
                                         </strong>
                                     </p>
@@ -87,7 +93,7 @@
 
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Today sales: <strong>
+                                    <p>Weekly sales: <strong>
                                             {% if weekly_sales.sales__sum == None %}
                                             {{ weekly_sales.sales__sum }}
                                             {% else %}
@@ -97,17 +103,17 @@
                                     </p>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Today dispensed liter: <strong>
+                                    <p>Weekly dispensed liter: <strong>
                                             {{ weekly_liter.dispensed_liter__sum }}
                                         </strong>
                                     </p>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Today price accumulated: <strong>
-                                            {% if weekly_price.price__sum == None %}
-                                            {{weekly_price.price__sum}}
+                                    <p>Weekly price accumulated: <strong>
+                                            {% if weekly_price.prices__sum == None %}
+                                            {{weekly_price.prices__sum}}
                                             {% else %}
-                                            &#8369;{{weekly_price.price__sum}}
+                                            &#8369;{{weekly_price.prices__sum}}
                                             {% endif %}
                                         </strong>
                                     </p>
@@ -119,7 +125,7 @@
 
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Today sales: <strong>
+                                    <p>Yeaerly sales: <strong>
                                             {% if yearly_sales.sales__sum == None %}
                                             {{ yearly_sales.sales__sum }}
                                             {% else %}
@@ -129,17 +135,17 @@
                                     </p>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Today dispensed liter: <strong>
+                                    <p>Yearly dispensed liter: <strong>
                                             {{ yearly_liter.dispensed_liter__sum }}
                                         </strong>
                                     </p>
                                 </div>
                                 <div class="col-md-4 col-sm-12">
-                                    <p>Today price accumulated: <strong>
-                                            {% if yearly_price.price__sum == None %}
-                                            {{yearly_price.price__sum}}
+                                    <p>Yearly price accumulated: <strong>
+                                            {% if yearly_price.prices__sum == None %}
+                                            {{yearly_price.prices__sum}}
                                             {% else %}
-                                            &#8369;{{yearly_price.price__sum}}
+                                            &#8369;{{yearly_price.prices__sum}}
                                             {% endif %}
                                         </strong>
                                     </p>
@@ -166,7 +172,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
-                            <th scope="col">Type of fuel</th>
+                            <th scope="col">Type of prices</th>
                             <th scope="col">Sales</th>
                             <th scope="col">Price</th>
                             <th scope="col">Gas station assigned</th>
@@ -179,7 +185,7 @@
                             <td>[[ item.created_at ]]</td>
                             <td>[[ item.fuel ]]</td>
                             <td>[[ item.sales ]]</td>
-                            <td>[[ item.fuel_price ]]</td>
+                            <td>[[ item.prices ]]</td>
                             <td>[[ item.gas_station_assigned ]]</td>
                             <td>[[ item.dispensed_liter ]]</td>
                             <td><a href="#" data-toggle="modal" v-on:click="fetchTransaction(item.id)"
