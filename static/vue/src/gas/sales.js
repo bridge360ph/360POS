@@ -36,9 +36,12 @@ new Vue({
   },
   methods: {
     reset: function () {
-      Object.keys(this.newTransactions).forEach(key => {
-        this.newTransactions[key] = null
-      })
+      this.newTransactions.fuel = null;
+      this.newTransactions.sales = 0.00;
+      this.newTransactions.gas_station_assigned = null;
+      // Object.keys(this.newTransactions).forEach(key => {
+      //   this.newTransactions[key] = null
+      // })
     },
     isNumber($event) {
       // console.log($event.keyCode); //keyCodes value
@@ -75,8 +78,8 @@ new Vue({
     addTransactions() {
       this.saving = true;
       this.adding = true;
-      if (this.newSales) {
-        axios.post(`/api/v1/transactions/`, this.newSales)
+      if (this.newTransactions) {
+        axios.post(`/api/v1/transactions/`, this.newTransactions)
           .then(() => {
             this.saving = false;
             this.reset();
