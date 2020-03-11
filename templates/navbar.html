@@ -19,14 +19,17 @@
                     <a class="nav-link" href="{% url 'sales' %}">Transactions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'gas' %}">Gas Station</a>
+                    <a class="nav-link" href="{% url 'gas' %}">Gas Stations</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'prices' %}">Price</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'fuels' %}">Fuel Type</a>
-                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Manage list
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'prices' %}">List of Fuel Prices</a>
+                        <a class="dropdown-item" href="{% url 'gasoline-stations' %}">List of Gasoline Stations</a>
+                    </div>
+                  </li>
                 {% endif %}
             </ul>
             <span class="nav-item dropdown navbar-right">
