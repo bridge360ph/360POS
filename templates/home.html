@@ -35,10 +35,10 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <p>Weekly price accumulated: <strong>
-                            {% if weekly_price.price__sum == None %}
-                            {{weekly_price.price__sum}}
+                            {% if weekly_price.prices__sum == None %}
+                            {{weekly_price.prices__sum}}
                             {% else %}
-                            &#8369;{{weekly_price.price__sum}}
+                            &#8369;{{weekly_price.prices__sum}}
                             {% endif %}
                         </strong>
                     </p>
