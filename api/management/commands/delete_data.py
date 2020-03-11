@@ -1,4 +1,4 @@
-from gasolinestation.models import GasStations, PriceManagement
+from gasolinestation.models import GasStations, Transactions, GasolineStation, FuelPrices
 
 from django.core.management.base import BaseCommand
 
