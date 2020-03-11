@@ -3,7 +3,7 @@
         <label>Fuel</label>
         <select class="custom-select" v-model="newTransactions.fuel">
             <option v-for="fuel in fuelPrices.results">
-                [[ fuel.name ]] - [[ fuel.price ]]
+                [[ fuel.fuel_price ]]
             </option>
         </select>
     </div>

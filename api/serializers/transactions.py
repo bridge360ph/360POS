@@ -11,7 +11,7 @@ from gasolinestation.models import Transactions, GasolineStation, FuelPrices
 
 
 class TransactionSerializer(serializers.ModelSerializer):
-    fuel = serializers.SlugRelatedField(slug_field="name", queryset=FuelPrices.objects.all(), allow_null=True, required=False)
+    fuel = serializers.SlugRelatedField(slug_field="fuel_price", queryset=FuelPrices.objects.all(), allow_null=True, required=False)
     gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
     fuel_name = SerializerMethodField()
     fuel_price = SerializerMethodField()

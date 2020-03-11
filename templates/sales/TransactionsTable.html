@@ -15,10 +15,6 @@
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" data-toggle="modal" data-target="#salesModal" class="btn btn-success">Add
                     sales</button>
-                {% if request.user.position == 'Manager' or request.user.position == 'Owner' %}
-                <button type="button" data-toggle="modal" data-target="#fuelModal" class="btn btn-primary">Add type of
-                    fuel</button>
-                {% endif %}
             </div>
         </div>
     </div>
