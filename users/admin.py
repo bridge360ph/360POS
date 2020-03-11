@@ -18,7 +18,7 @@ class CustomUserAdmin(UserAdmin):
     UserAdmin.fieldsets=(
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {
-         'fields': ('first_name', 'last_name', 'nickname', 'birthdate', 'position')}),
+         'fields': ('first_name', 'last_name', 'nickname', 'birthdate', 'position', 'gas_station_assigned')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),)
 
 

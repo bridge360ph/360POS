@@ -4,15 +4,17 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from users.models import CustomUser
+from gasolinestation.models import GasolineStation
 
 
 class UserSerializer(serializers.ModelSerializer):
+    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = CustomUser
         fields = (
             'id','username', 'first_name', 'last_name', 'nickname',
-            'picture', 'position', 'birthdate', 'full_name'
+            'picture', 'position', 'birthdate', 'full_name', 'gas_station_assigned'
         )
 
 
