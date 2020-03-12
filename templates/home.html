@@ -35,10 +35,10 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <p>Weekly price accumulated: <strong>
-                            {% if weekly_price.price__sum == None %}
-                            {{weekly_price.price__sum}}
+                            {% if weekly_price.prices__sum == None %}
+                            {{weekly_price.prices__sum}}
                             {% else %}
-                            &#8369;{{weekly_price.price__sum}}
+                            &#8369;{{weekly_price.prices__sum}}
                             {% endif %}
                         </strong>
                     </p>
@@ -51,9 +51,9 @@
         {% if request.user.position == 'Cashier' %}
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
-                <a href="{% url 'sales' %}" class="card-header">Sales</a>
+                <a href="{% url 'sales' %}" class="card-header">Transactions</a>
                 <div class="card-body">
-                    <p class="card-text">View all <strong>Sales</strong> data for today.
+                    <p class="card-text">View all <strong>Transaction</strong> made for today.
                     </p>
                 </div>
             </div>
@@ -61,7 +61,16 @@
         {% elif request.user.position == 'Owner' or request.user.position == 'Manager' %}
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
-                <a href="{% url 'gas' %}" class="card-header">Gas Station</a>
+                <a href="{% url 'sales' %}" class="card-header">Transactions</a>
+                <div class="card-body">
+                    <p class="card-text">View all <strong>Transactions</strong> made.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
+            <div class="card mb-3">
+                <a href="{% url 'gas' %}" class="card-header">Manage Gas Station informations</a>
                 <div class="card-body">
                     <p class="card-text">View all <strong>Gas Station</strong> data.
                     </p>
@@ -70,18 +79,18 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
-                <a href="{% url 'prices' %}" class="card-header">Price Management</a>
+                <a href="{% url 'prices' %}" class="card-header">List of Fuel Prices</a>
                 <div class="card-body">
-                    <p class="card-text">View all <strong>Price</strong> data.
+                    <p class="card-text">View all list of <strong>Fuel Prices</strong> data.
                     </p>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 mt-5">
             <div class="card mb-3">
-                <a href="{% url 'fuels' %}" class="card-header">Fuel Type</a>
+                <a href="{% url 'gasoline-stations' %}" class="card-header">List of Gasoline Stations</a>
                 <div class="card-body">
-                    <p class="card-text">View all <strong>Fuel type</strong> data.
+                    <p class="card-text">View all names of <strong>Gasoline Stations</strong> data.
                     </p>
                 </div>
             </div>

@@ -7,14 +7,16 @@ from rest_framework.permissions import IsAuthenticated
 
 from users.models import CustomUser as user
 from gasolinestation.models import (
-    GasStations, FuelPricing, TypeOfFuel
+    GasStations, FuelPrices, TypeOfFuel,
+    GasolineStation
     )
 
 
 class GasolineSerializer(serializers.ModelSerializer):
+    name = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
     site_manager = serializers.SlugRelatedField(slug_field="full_name", queryset=user.objects.filter(position="Manager"), allow_null=True, required=False)
     site_staff = serializers.SlugRelatedField(slug_field="full_name", queryset=user.objects.filter(position="Cashier"), allow_null=True, required=False, many=True)
-    fuels = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False, many=True)
+    fuel_prices = serializers.SlugRelatedField(slug_field="fuel_price", queryset=FuelPrices.objects.all(), allow_null=True, required=False, many=True)
 
     class Meta:
         model = GasStations

@@ -1,44 +1,47 @@
-import datetime
+from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Q, Sum, Avg, Max, Min
 
 from rest_framework import serializers, viewsets
 from rest_framework.fields import SerializerMethodField
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from gasolinestation.models import TransactionSales, TypeOfFuel, GasStations
+from gasolinestation.models import Transactions, GasolineStation, FuelPrices
 
 
-class TransactionSalesSerializer(serializers.ModelSerializer):
-    type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
-    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasStations.objects.all(), allow_null=True, required=False)
+class TransactionSerializer(serializers.ModelSerializer):
+    fuel = serializers.SlugRelatedField(slug_field="fuel_price", queryset=FuelPrices.objects.all(), allow_null=True, required=False)
+    gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
+    fuel_name = SerializerMethodField()
     fuel_price = SerializerMethodField()
-
     class Meta:
-        model = TransactionSales
-        fields = '__all__'
+        model = Transactions
+        fields = "__all__"
+
+    def get_fuel_name(self, obj):
+        return "%s" % (obj.fuel.name)
 
     def get_fuel_price(self, obj):
-        return str(obj.type_of_fuel) + ' - ' + str(obj.price)
+        return "%s" % (obj.fuel.price)
 
 
-class TransactionSalesViewSet(viewsets.ModelViewSet):
-    serializer_class = TransactionSalesSerializer
+class TransactionViewSet(viewsets.ModelViewSet):
+    serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        today = datetime.date.today()
+        today = datetime.today()
 
         if self.request.user.position == 'Cashier':
-            sales = TransactionSales.objects.all()
-            qs = sales.filter(Q(created_at=today))
+            sales = Transactions.objects.all()
+            qs = sales.filter(Q(created_at=today), Q(gas_station_assigned=self.request.user.gas_station_assigned))
             return qs
         elif self.request.user.position == 'Manager':
-            sales = TransactionSales.objects.all()
+            sales = Transactions.objects.all()
             return sales
         elif self.request.user.position == 'Owner':
-            sales = TransactionSales.objects.all()
+            sales = Transactions.objects.all()
             return sales
 
     def perform_create(self, serializer):
@@ -47,7 +50,7 @@ class TransactionSalesViewSet(viewsets.ModelViewSet):
         owner = self.request.user.position == 'Owner'
 
         if cashier:
-            return serializer.save(created_by=self.request.user.full_name)
+            return serializer.save(created_by=self.request.user.full_name, gas_station_assigned=self.request.user.gas_station_assigned)
         elif manager:
             return serializer.save(created_by=self.request.user.full_name)
         elif owner:

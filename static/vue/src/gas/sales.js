@@ -3,51 +3,45 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 
 new Vue({
-  el: '#pos-sales',
+  el: '#pos-transactions',
   delimiters: ['[[', ']]'],
   data() {
     return {
-      sales: [],
+      transactions: [],
       gasStations: [],
-      apiEndpoint: `/api/v1/sales`,
-      typeOfFuel: [],
+      apiEndpoint: `/api/v1/transactions/`,
+      fuelPrices: [],
       loading: false,
       viewing: false,
       saving: false,
       adding: false,
       paging: false,
-      currentSales: {},
+      currentTransactions: {},
       next: null,
       previous: null,
       count: null,
-      newSales: {
-        'type_of_fuel': null,
+      newTransactions: {
+        'fuel': null,
         'sales': 0.00,
-        'price': 0.00,
         'gas_station_assigned': null,
         'dispensed_liter': 0.00,
       },
-      newFuel: {
-        'name': "",
-      }
     };
   },
   mounted() {
-    this.fetchTypeOfFuel();
-    this.fetchSales();
+    this.fetchTransactions();
     this.fetchGasStations();
+    this.fetchFuelPrices();
     this.nextPage();
   },
   methods: {
     reset: function () {
-      Object.keys(this.newSales).forEach(key => {
-        this.newSales[key] = null
-      })
-    },
-    resetFuel: function () {
-      Object.keys(this.newFuel).forEach(key => {
-        this.newFuel[key] = ""
-      })
+      this.newTransactions.fuel = null;
+      this.newTransactions.sales = 0.00;
+      this.newTransactions.gas_station_assigned = null;
+      // Object.keys(this.newTransactions).forEach(key => {
+      //   this.newTransactions[key] = null
+      // })
     },
     isNumber($event) {
       // console.log($event.keyCode); //keyCodes value
@@ -63,15 +57,15 @@ new Vue({
       //   $event.preventDefault();
       // }
     },
-    updateSales() {
+    updateTransaction() {
       this.saving = true;
-      let endpoint = `/api/v1/sales/${this.currentSales.id}/`;
-      if (this.currentSales) {
-        axios.put(endpoint, this.currentSales)
+      let endpoint = `/api/v1/transactions/${this.currentTransactions.id}/`;
+      if (this.currentTransactions) {
+        axios.put(endpoint, this.currentTransactions)
           .then((response) => {
             this.saving = false;
-            this.currentSales = response.data;
-            this.fetchSales();
+            this.currentTransactions = response.data;
+            this.fetchTransactions();
 
             $("#editSalesModal").modal("hide")
           })
@@ -81,17 +75,17 @@ new Vue({
           })
       }
     },
-    addSales() {
+    addTransactions() {
       this.saving = true;
       this.adding = true;
-      if (this.newSales) {
-        axios.post(`/api/v1/sales/`, this.newSales)
+      if (this.newTransactions) {
+        axios.post(`/api/v1/transactions/`, this.newTransactions)
           .then(() => {
             this.saving = false;
             this.reset();
             
             $("#salesModal").modal("hide")
-            this.fetchSales();
+            this.fetchTransactions();
           })
           .catch((err) => {
             this.saving = false;
@@ -99,14 +93,14 @@ new Vue({
           })
       }
     },
-    fetchTypeOfFuel() {
+    fetchFuelPrices() {
       this.loading = true;
-      let endpoint = `/api/v1/type-of-fuel/`;
+      let endpoint = `/api/v1/fuel-prices/`;
       
-      if (this.typeOfFuel) {
+      if (this.fuelPrices) {
         axios.get(endpoint)
           .then((response) => {
-            this.typeOfFuel = response.data;
+            this.fuelPrices = response.data;
             this.loading = false;
           })
           .catch((err) => {
@@ -117,7 +111,7 @@ new Vue({
     },
     fetchGasStations() {
       this.loading = true;
-      let endpoint = `/api/v1/gas-station/`;
+      let endpoint = `/api/v1/gasoline-stations/`;
       if (this.gasStations) {
         axios.get(endpoint)
           .then((response) => {
@@ -130,16 +124,16 @@ new Vue({
           })
       }
     },
-    addTypeOfFuel() {
+    addfuelPrices() {
       this.saving = true;
       this.adding = true;
       if (this.newFuel) {
-        axios.post(`/api/v1/type-of-fuel/`, this.newFuel)
+        axios.post(`/api/v1/fuel-prices/`, this.newFuel)
           .then(() => {
             this.resetFuel();
             this.saving = false;
 
-            this.fetchTypeOfFuel();
+            this.fetchfuelPrices();
             $("#fuelModal").modal("hide");
           })
           .catch((err) => {
@@ -148,14 +142,14 @@ new Vue({
           })
       }
     },
-    fetchSales() {
+    fetchTransactions() {
       this.loading = true;
-      let endpoint = `/api/v1/sales/`;
+      let endpoint = this.apiEndpoint;
 
-      if (this.sales) {
+      if (this.transactions) {
         axios.get(endpoint)
           .then((response) => {
-            this.sales = response.data;
+            this.transactions = response.data;
             this.loading = false;
           })
           .catch((err) => {
@@ -164,13 +158,13 @@ new Vue({
           })
       }
     },
-    fetchSale(id) {
+    fetchTransaction(id) {
       this.viewing = true;
-      let endpoint = `/api/v1/sales/${id}/`;
-      if (this.currentSales) {
+      let endpoint = `/api/v1/transactions/${id}/`;
+      if (this.currentTransactions) {
         axios.get(endpoint)
           .then((response) => {
-            this.currentSales = response.data;
+            this.currentTransactions = response.data;
             this.viewing = false;
           })
           .catch((err) => {
@@ -181,7 +175,7 @@ new Vue({
     },
     nextPage() {
       this.paging = true;
-      let endpoint = `/api/v1/sales/`;
+      let endpoint = `/api/v1/transactions/`;
 
       if(this.next) {
         endpoint = this.next;
@@ -189,10 +183,10 @@ new Vue({
         endpoint = this.previous;
       }
 
-      if (this.sales) {
+      if (this.transactions) {
         axios.get(endpoint)
           .then((response) => {
-            this.sales = response.data;
+            this.transactions = response.data;
             this.paging = false;
 
             if(response.data.next) {
@@ -214,7 +208,7 @@ new Vue({
     },
     previousPage() {
       this.paging = true;
-      let endpoint = `/api/v1/sales/`;
+      let endpoint = `/api/v1/transactions/`;
 
       if(this.previous) {
         endpoint = this.previous;
@@ -222,10 +216,10 @@ new Vue({
         endpoint = this.next;
       }
 
-      if (this.sales) {
+      if (this.transactions) {
         axios.get(endpoint)
           .then((response) => {
-            this.sales = response.data;
+            this.transactions = response.data;
             this.paging = false;
 
             if(response.data.next) {

@@ -3,15 +3,11 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 
 new Vue({
-  el: '#pos-gas',
+  el: '#pos-gasoline-station',
   delimiters: ['[[', ']]'],
   data() {
     return {
       gasStations: [],
-      gasolineStations: [],
-      fuels: [],
-      managers: [],
-      staffs: [],
       loading: false,
       viewing: false,
       saving: false,
@@ -21,32 +17,23 @@ new Vue({
       currentGas: {},
       newGas: {
         'name': "",
-        'site_location': "",
-        'site_manager': null,
-        'site_staff': [],
-        'fuel_prices': [],
       }
     };
   },
   mounted() {
     this.fetchGasStations();
-    this.fetchGasolineStations();
-    this.fetchManagers();
-    this.fetchStaffs();
-    this.fetchFuels();
     this.nextPage();
   },
   methods: {
     reset: function () {
-      this.newGas.name = null;
-      this.newGas.site_location = "";
-      this.newGas.site_manager = null;
-      this.newGas.site_staff = [];
-      this.newGas.fuel_prices = [];
+      this.newGas.name = "";
+      // Object.keys(this.newGas).forEach(key => {
+      //   this.newGas[key] = ""
+      // })
     },
     fetchGasStations() {
       this.loading = true;
-      let endpoint = `/api/v1/gas-station/`;
+      let endpoint = `/api/v1/gasoline-stations/`;
       if (this.gasStations) {
         axios.get(endpoint)
           .then((response) => {
@@ -59,24 +46,9 @@ new Vue({
           })
       }
     },
-    fetchGasolineStations() {
-      this.loading = true;
-      let endpoint = `/api/v1/gasoline-stations/`;
-      if (this.gasolineStations) {
-        axios.get(endpoint)
-          .then((response) => {
-            this.gasolineStations = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
-          })
-      }
-    },
     fetchGasStation(id) {
       this.viewing = true;
-      let endpoint = `/api/v1/gas-station/${id}/`;
+      let endpoint = `/api/v1/gasoline-stations/${id}/`;
       if (this.currentGas) {
         axios.get(endpoint)
           .then((response) => {
@@ -89,55 +61,9 @@ new Vue({
           })
       }
     },
-    fetchManagers() {
-      this.loading = true;
-      let endpoint = `/api/v1/manager/`;
-      if (this.managers) {
-        axios.get(endpoint)
-          .then((response) => {
-            this.managers = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
-          })
-      }
-    },
-    fetchStaffs() {
-      this.loading = true;
-      let endpoint = `/api/v1/staff/`;
-      if (this.staffs) {
-        axios.get(endpoint)
-          .then((response) => {
-            this.staffs = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
-          })
-      }
-    },
-    fetchFuels() {
-      this.loading = true;
-      let endpoint = `/api/v1/fuel-prices/`;
-      
-      if (this.fuels) {
-        axios.get(endpoint)
-          .then((response) => {
-            this.fuels = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
-          })
-      }
-    },
     updateGas() {
       this.saving = true;
-      let endpoint = `/api/v1/gas-station/${this.currentGas.id}/`;
+      let endpoint = `/api/v1/gasoline-stations/${this.currentGas.id}/`;
       if (this.currentGas) {
         axios.put(endpoint, this.currentGas)
           .then((response) => {
@@ -157,7 +83,7 @@ new Vue({
       this.saving = true;
       this.adding = true;
       if (this.newGas) {
-        axios.post(`/api/v1/gas-station/`, this.newGas)
+        axios.post(`/api/v1/gasoline-stations/`, this.newGas)
           .then(() => {
             this.reset();
             this.saving = false;
@@ -171,7 +97,7 @@ new Vue({
     },
     nextPage() {
       this.paging = true;
-      let endpoint = `/api/v1/gas-station/`;
+      let endpoint = `/api/v1/gasoline-stations/`;
 
       if(this.next) {
         endpoint = this.next;
@@ -204,7 +130,7 @@ new Vue({
     },
     previousPage() {
       this.paging = true;
-      let endpoint = `/api/v1/gas-station/`;
+      let endpoint = `/api/v1/gasoline-stations/`;
 
       if(this.previous) {
         endpoint = this.previous;

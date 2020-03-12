@@ -1,27 +1,20 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label>Type of Fuel</label>
-        <select class="custom-select" v-model="newPrice.type_of_fuel">
-            <option v-for="fuel in typeOfFuels.results">
-                [[ fuel.name ]]
-            </option>
-        </select>
-        {% if request.user.position == 'Manager' or request.user.position == 'Owner' %}
-        <a href="#" data-toggle="modal" data-target="#fuelModal"
-            class="badge badge-info">Add type of fuel</a>
-        {% endif %}
-    </div>
-    <div class="form-group col-md-12">
-        <label>Gasoline Station assigned</label>
-        <select class="custom-select" v-model="newPrice.gas_station_assigned">
-            <option v-for="gas in gasStations.results">
-                [[ gas.name ]]
-            </option>
-        </select>
+        <input type="text" v-model="newPrice.name"
+         class="form-control">
     </div>
     <div class="form-group col-md-12">
         <label>Price</label>
         <input type="number" step="0.01" v-model="newPrice.price" @keypress="isNumber($event)"
          class="form-control">
+    </div>
+    <div class="form-group col-md-12">
+        <label>Gasoline Station assigned</label>
+        <select class="custom-select" v-model="newPrice.gas_station_assigned">
+            <option v-for="gas in gasolineStations.results">
+                [[ gas.name ]]
+            </option>
+        </select>
     </div>
 </div>

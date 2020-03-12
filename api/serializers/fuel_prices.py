@@ -7,22 +7,30 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from gasolinestation.models import PriceManagement, TypeOfFuel, GasolineStation
+from gasolinestation.models import FuelPrices, TypeOfFuel, GasolineStation
 
 
-class PriceManagementSerializer(serializers.ModelSerializer):
-    type_of_fuel = serializers.SlugRelatedField(slug_field="name", queryset=TypeOfFuel.objects.all(), allow_null=True, required=False)
+class FuelPriceSerializer(serializers.ModelSerializer):
     gas_station_assigned = serializers.SlugRelatedField(slug_field="name", queryset=GasolineStation.objects.all(), allow_null=True, required=False)
 
     class Meta:
-        model = PriceManagement
+        model = FuelPrices
         fields = '__all__'
 
 
-class PriceManagementViewSet(viewsets.ModelViewSet):
-    queryset = PriceManagement.objects.all()
-    serializer_class = PriceManagementSerializer
+class FuelPriceViewSet(viewsets.ModelViewSet):
+    queryset = FuelPrices.objects.all()
+    serializer_class = FuelPriceSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.position == 'Cashier' or self.request.user.position == 'Manager':
+            fuels = FuelPrices.objects.all()
+            qs = fuels.filter(Q(gas_station_assigned=self.request.user.gas_station_assigned))
+            return qs
+        elif self.request.user.position == 'Owner':
+            fuels = FuelPrices.objects.all()
+            return fuels
 
     def perform_create(self, serializer):
         cashier = self.request.user.position == 'Cashier'

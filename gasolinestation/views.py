@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.db.models import Avg, Sum, Q
-from . models import TransactionSales
+from . models import Transactions, FuelPrices
 
 from django.shortcuts import render
 
@@ -13,12 +13,13 @@ class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get(self, request):
-        weekly_sales = TransactionSales.objects.filter(
-            created_at__week=52).aggregate(Sum('sales'))
-        weekly_liter = TransactionSales.objects.filter(
-            created_at__week=52).aggregate(Sum('dispensed_liter'))
-        weekly_price = TransactionSales.objects.filter(
-            created_at__week=52).aggregate(Sum('price'))
+        one_week_ago = datetime.today() - timedelta(days=7)
+        weekly_sales = Transactions.objects.filter(
+            created_at__gte=one_week_ago).aggregate(Sum('sales'))
+        weekly_liter = Transactions.objects.filter(
+            created_at__gte=one_week_ago).aggregate(Sum('dispensed_liter'))
+        weekly_price = Transactions.objects.filter(
+            created_at__gte=one_week_ago).aggregate(Sum('prices'))
         
         ctx = {
             'weekly_sales': weekly_sales,
@@ -32,38 +33,43 @@ class GasView(LoginRequiredMixin, TemplateView):
     template_name = 'gas/GasTable.html'
 
 
+class GasolineStationView(LoginRequiredMixin, TemplateView):
+    template_name = 'gasoline_stations/GasTable.html'
+
+
 class AddGasView(LoginRequiredMixin, TemplateView):
     template_name = 'gas/GasAdd.html'
 
 
 class SalesView(LoginRequiredMixin, TemplateView):
-    model = TransactionSales
-    template_name = 'sales/SalesTable.html'
+    model = Transactions
+    template_name = 'sales/TransactionsTable.html'
 
     def get(self, request):
         today = datetime.today()
+        one_week_ago = datetime.today() - timedelta(days=7)
         yearly = datetime.today().year
-        sales = TransactionSales.objects.all().aggregate(Sum('sales'))
-        today_sales = TransactionSales.objects.filter(
+        sales = Transactions.objects.all().aggregate(Sum('sales'))
+        today_sales = Transactions.objects.filter(
             created_at=today).aggregate(Sum('sales'))
-        weekly_sales = TransactionSales.objects.filter(
-            created_at__week=52).aggregate(Sum('sales'))
-        yearly_sales = TransactionSales.objects.filter(
+        weekly_sales = Transactions.objects.filter(
+            created_at__gte=one_week_ago).aggregate(Sum('sales'))
+        yearly_sales = Transactions.objects.filter(
             created_at__year=yearly).aggregate(Sum('sales'))
-        liter = TransactionSales.objects.all().aggregate(Sum('dispensed_liter'))
-        today_liter = TransactionSales.objects.filter(
+        liter = Transactions.objects.all().aggregate(Sum('dispensed_liter'))
+        today_liter = Transactions.objects.filter(
             created_at=today).aggregate(Sum('dispensed_liter'))
-        weekly_liter = TransactionSales.objects.filter(
-            created_at__week=52).aggregate(Sum('dispensed_liter'))
-        yearly_liter = TransactionSales.objects.filter(
+        weekly_liter = Transactions.objects.filter(
+            created_at__gte=one_week_ago).aggregate(Sum('dispensed_liter'))
+        yearly_liter = Transactions.objects.filter(
             created_at__year=yearly).aggregate(Sum('dispensed_liter'))
-        price = TransactionSales.objects.all().aggregate(Sum('price'))
-        today_price = TransactionSales.objects.filter(
-            created_at=today).aggregate(Sum('price'))
-        weekly_price = TransactionSales.objects.filter(
-            created_at__week=52).aggregate(Sum('price'))
-        yearly_price = TransactionSales.objects.filter(
-            created_at__year=yearly).aggregate(Sum('price'))
+        price = Transactions.objects.all().aggregate(Sum('prices'))
+        today_price = Transactions.objects.filter(
+            created_at=today).aggregate(Sum('prices'))
+        weekly_price = Transactions.objects.filter(
+            created_at__gte=one_week_ago).aggregate(Sum('prices'))
+        yearly_price = Transactions.objects.filter(
+            created_at__year=yearly).aggregate(Sum('prices'))
 
         ctx = {
             'sales': sales,
@@ -85,7 +91,3 @@ class SalesView(LoginRequiredMixin, TemplateView):
 
 class PriceView(LoginRequiredMixin, TemplateView):
     template_name = 'price/PriceTable.html'
-
-
-class FuelView(LoginRequiredMixin, TemplateView):
-    template_name = 'fuel/FuelTable.html'

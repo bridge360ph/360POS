@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block title %}
-- Fuels
+- List of Gasoline stations
 {% endblock %}
 
 {% load static %}
 
 {% block content %}
-<div id="pos-fuel" v-cloak>
+<div id="pos-gasoline-station" v-cloak>
     <div class="mt-3">
-        <h1>Manage Fuel types</h1>
+        <h1>Manage List of Gasoline Stations</h1>
         <hr>
-        <div class="form-row">
+        <div class="container">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" data-toggle="modal" data-target="#fuelModal" class="btn btn-success">Add
-                    fuel type</button>
+                <button type="button" class="btn btn-success" href="#" data-toggle="modal" data-target="#gasModal">Add
+                    Gasoline Station</button>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="card mt-5" v-else>
-        <div class="card-header">List Fuel types</div>
+        <div class="card-header">List Gasoline Stations</div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
@@ -39,19 +39,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="!fuels.count">
+                        <tr v-if="!gasStations.count">
                             <td colspan="7" class="text-center bg-warning">
-                                Currently there's no <strong>Sales</strong> added.
+                                Currently there's no Gas Station added.
                             </td>
                         </tr>
-                        <tr v-for="item in fuels.results" :key="item.id">
-                            <td>[[ item.created_at ]]</td>
-                            <td>[[ item.updated_at ]]</td>
-                            <td>[[ item.name ]]</td>
-                            <td>[[ item.created_by ]]</td>
-                            <td>[[ item.updated_by ]]</td>
-                            <td><a href="#" data-toggle="modal" v-on:click="fetchFuel(item.id)"
-                                    data-target="#editFuelModal" class="badge badge-info">Edit</a></td>
+                        <tr v-for="gas in gasStations.results" :key="gas.id" v-else>
+                            <td>[[ gas.created_at ]]</td>
+                            <td>[[ gas.updated_at ]]</td>
+                            <td>[[ gas.name ]]</td>
+                            <td>[[ gas.created_by ]]</td>
+                            <td>[[ gas.updated_by ]]</td>
+                            <td><a href="#" data-toggle="modal" v-on:click="fetchGasStation(gas.id)"
+                                    data-target="#gasStationModal" class="badge badge-info">Edit</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -71,18 +71,18 @@
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editFuelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- Add Modal -->
+    <div class="modal fade" id="gasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Information</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form v-on:submit.prevent="updateFuel">
+                <form v-on:submit.prevent="addGas">
                     <div class="modal-body">
                         <template v-if="viewing">
                             <div class="text-center">
@@ -92,7 +92,7 @@
                             </div>
                         </template>
                         <template v-else>
-                            {% include 'fuel/FuelEdit.html' %}
+                            {% include 'gasoline_stations/GasAdd.html' %}
                         </template>
                     </div>
                     <div class="modal-footer">
@@ -111,18 +111,18 @@
         </div>
     </div>
 
-    <!-- Add Modal -->
-    <div class="modal fade" id="fuelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- Modal -->
+    <div class="modal fade" id="gasStationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Information</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Information</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form v-on:submit.prevent="addFuel">
+                <form v-on:submit.prevent="updateGas">
                     <div class="modal-body">
                         <template v-if="viewing">
                             <div class="text-center">
@@ -132,7 +132,7 @@
                             </div>
                         </template>
                         <template v-else>
-                            {% include 'fuel/FuelAdd.html' %}
+                            {% include 'gasoline_stations/GasEdit.html' %}
                         </template>
                     </div>
                     <div class="modal-footer">
@@ -154,5 +154,5 @@
 {% endblock %}
 
 {% block api %}
-<script src="{% static 'vue/src/gas/fuel.js' %}" type="text/javascript"></script>
+<script src="{% static 'vue/src/gas/gasoline.js' %}" type="text/javascript"></script>
 {% endblock %}
