@@ -91,7 +91,3 @@ class SalesView(LoginRequiredMixin, TemplateView):
 
 class PriceView(LoginRequiredMixin, TemplateView):
     template_name = 'price/PriceTable.html'
-
-
-class FuelView(LoginRequiredMixin, TemplateView):
-    template_name = 'fuel/FuelTable.html'
